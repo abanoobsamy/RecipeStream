@@ -9,23 +9,39 @@ import UIKit
 
 class HomeVC: UIViewController {
 
+    //outlets
+    @IBOutlet weak var sliderCollectionView: UICollectionView!
+    @IBOutlet weak var categoryCollectionView: UICollectionView!
+    @IBOutlet weak var recommendedCollectionView: UICollectionView!
+    @IBOutlet weak var imageIv: UIImageView!
+    @IBOutlet weak var seeAllBtn: UIButton!
+    @IBOutlet weak var notificationIv: UIImageView!
+    @IBOutlet weak var pageControl: UIPageControl!
+    
+    // variables
+    var timer: Timer?
+    var currentCellIndex: Int = 0
+    
+    var arrCategories: [String] = ["All", "Bob", "Abanoob", "Fixes Bob Bob Bob Bob "]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-    
+        
         navigationController?.isNavigationBarHidden = true
+    
+        notificationIv.makeCircularIcon(bgColor: .systemGray6)
+        
+        setupCollectionView()
+        setupPager()
+        
+        // بيعمل Select لأول عنصر (All) تلقائياً
+        let firstIndexPath = IndexPath(item: 0, section: 0)
+        categoryCollectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: .right)
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    @IBAction func btnSeeAll(_ sender: Any) {
     }
-    */
-
+    
 }
