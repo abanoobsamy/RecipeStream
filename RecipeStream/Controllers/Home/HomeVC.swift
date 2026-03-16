@@ -17,6 +17,7 @@ class HomeVC: UIViewController {
     @IBOutlet weak var seeAllBtn: UIButton!
     @IBOutlet weak var notificationIv: UIImageView!
     @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var recommendedCVHeightConstraint: NSLayoutConstraint!
     
     // variables
     var timer: Timer?
@@ -39,6 +40,14 @@ class HomeVC: UIViewController {
         // بيعمل Select لأول عنصر (All) تلقائياً
         let firstIndexPath = IndexPath(item: 0, section: 0)
         categoryCollectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: .right)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // بنخلي الارتفاع بتاع الكولكشن يساوي طول المحتوى الحقيقي (ContentSize)
+        let contentHeight = recommendedCollectionView.collectionViewLayout.collectionViewContentSize.height
+        recommendedCVHeightConstraint.constant = contentHeight
     }
     
     @IBAction func btnSeeAll(_ sender: Any) {

@@ -49,6 +49,8 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate {
             self.sliderCollectionView.reloadData()
             self.categoryCollectionView.reloadData()
             self.recommendedCollectionView.reloadData()
+            // reload for view after data back from api
+            self.view.layoutIfNeeded()
         }
     }
     
@@ -56,8 +58,10 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == sliderCollectionView {
             return 4
-        } else {
+        } else if collectionView == categoryCollectionView {
             return 4
+        } else {
+            return 12
         }
     }
     
@@ -66,7 +70,6 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SliderHomeViewCell.identifier, for: indexPath) as! SliderHomeViewCell
             
             return cell
-            
         }
         else if collectionView == categoryCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryViewCell.identifier, for: indexPath) as! CategoryViewCell
@@ -121,7 +124,7 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
             let cellWidth = availableWidth / 2
             
             // الارتفاع: الصورة باين إنها أطول من العرض شوية، ممكن نضرب العرض في 1.3 أو نحط رقم ثابت يعجبك
-            let cellHeight = cellWidth * 1.3 // أو ممكن تكتب 240 مثلاً
+            let cellHeight = cellWidth * 1.2 // أو ممكن تكتب 240 مثلاً
             
             return CGSize(width: cellWidth, height: cellHeight)
         }

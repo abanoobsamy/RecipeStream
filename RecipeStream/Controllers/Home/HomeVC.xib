@@ -15,6 +15,7 @@
                 <outlet property="imageIv" destination="GAR-ee-32I" id="UXC-jg-XoI"/>
                 <outlet property="notificationIv" destination="gI4-a7-LFi" id="6BM-Ng-9gX"/>
                 <outlet property="pageControl" destination="eYr-5h-x2M" id="JTr-xf-Fgm"/>
+                <outlet property="recommendedCVHeightConstraint" destination="YPD-dr-rEe" id="O94-7r-olV"/>
                 <outlet property="recommendedCollectionView" destination="Khy-tU-Q5c" id="9AR-EA-h5T"/>
                 <outlet property="seeAllBtn" destination="xR6-Dy-gpu" id="qvO-QZ-ezR"/>
                 <outlet property="sliderCollectionView" destination="dsg-Nc-0sS" id="Gfo-ip-NYe"/>
@@ -30,7 +31,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xdt-d5-lGu">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="1224"/>
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="824"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Good Evening" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Vx-eY-9Ln">
                                     <rect key="frame" x="20" y="64" width="101" height="19.333333333333329"/>
@@ -116,10 +117,10 @@
                                     </connections>
                                 </button>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Khy-tU-Q5c">
-                                    <rect key="frame" x="20" y="560" width="353" height="600"/>
+                                    <rect key="frame" x="20" y="560" width="353" height="200"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="600" id="YPD-dr-rEe"/>
+                                        <constraint firstAttribute="height" constant="200" id="YPD-dr-rEe"/>
                                     </constraints>
                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tz5-yV-1gB">
                                         <size key="itemSize" width="128" height="128"/>
