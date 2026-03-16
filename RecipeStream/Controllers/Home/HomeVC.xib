@@ -30,7 +30,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xdt-d5-lGu">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="1224"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Good Evening" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Vx-eY-9Ln">
                                     <rect key="frame" x="20" y="64" width="101" height="19.333333333333329"/>
@@ -116,10 +116,10 @@
                                     </connections>
                                 </button>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Khy-tU-Q5c">
-                                    <rect key="frame" x="20" y="560" width="353" height="228"/>
+                                    <rect key="frame" x="20" y="560" width="353" height="600"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="228" id="YPD-dr-rEe"/>
+                                        <constraint firstAttribute="height" constant="600" id="YPD-dr-rEe"/>
                                     </constraints>
                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tz5-yV-1gB">
                                         <size key="itemSize" width="128" height="128"/>
@@ -171,12 +171,11 @@
                         </view>
                     </subviews>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="Xdt-d5-lGu" secondAttribute="trailing" id="0Oi-1q-Ach"/>
+                        <constraint firstItem="YE4-dZ-D5K" firstAttribute="trailing" secondItem="Xdt-d5-lGu" secondAttribute="trailing" id="0Oi-1q-Ach"/>
                         <constraint firstItem="Xdt-d5-lGu" firstAttribute="width" secondItem="k6p-QY-MTC" secondAttribute="width" id="LAu-E5-JPx"/>
-                        <constraint firstItem="Xdt-d5-lGu" firstAttribute="leading" secondItem="B1l-eh-Oav" secondAttribute="leading" id="OH3-S3-Pos"/>
-                        <constraint firstItem="Xdt-d5-lGu" firstAttribute="bottom" secondItem="k6p-QY-MTC" secondAttribute="bottom" id="sI6-kn-5Q4"/>
-                        <constraint firstAttribute="bottom" secondItem="Xdt-d5-lGu" secondAttribute="bottom" id="xv5-Td-3Dz"/>
-                        <constraint firstItem="Xdt-d5-lGu" firstAttribute="top" secondItem="B1l-eh-Oav" secondAttribute="top" id="zP3-KU-BbC"/>
+                        <constraint firstItem="Xdt-d5-lGu" firstAttribute="leading" secondItem="YE4-dZ-D5K" secondAttribute="leading" id="OH3-S3-Pos"/>
+                        <constraint firstItem="YE4-dZ-D5K" firstAttribute="bottom" secondItem="Xdt-d5-lGu" secondAttribute="bottom" id="xv5-Td-3Dz"/>
+                        <constraint firstItem="Xdt-d5-lGu" firstAttribute="top" secondItem="YE4-dZ-D5K" secondAttribute="top" id="zP3-KU-BbC"/>
                     </constraints>
                     <viewLayoutGuide key="contentLayoutGuide" id="YE4-dZ-D5K"/>
                     <viewLayoutGuide key="frameLayoutGuide" id="k6p-QY-MTC"/>

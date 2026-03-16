@@ -91,9 +91,11 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate {
 extension HomeVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         if collectionView == sliderCollectionView {
             let sliderWidth = sliderCollectionView.frame.width > 0 ? sliderCollectionView.frame.width : UIScreen.main.bounds.width
             return CGSize(width: sliderWidth, height: sliderCollectionView.frame.height)
+            
         } else if collectionView == categoryCollectionView {
             let categoryName = arrCategories[indexPath.item]
             
@@ -109,8 +111,8 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
             // 4. الارتفاع خليه 40 أو 45 (على حسب ما تحب الكبسولة تخينة ولا رفيعة)
             return CGSize(width: totalWidth, height: 32)
         } else {
-            let padding: CGFloat = 16
-            let spacingBetweenCells: CGFloat = 16
+            let padding: CGFloat = 8
+            let spacingBetweenCells: CGFloat = 8
             
             // الحسبة: عرض الشاشة - (مسافة اليمين + مسافة الشمال + المسافة اللي في النص)
             let availableWidth = collectionView.frame.width - (padding * 2) - spacingBetweenCells
@@ -119,33 +121,43 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
             let cellWidth = availableWidth / 2
             
             // الارتفاع: الصورة باين إنها أطول من العرض شوية، ممكن نضرب العرض في 1.3 أو نحط رقم ثابت يعجبك
-            let cellHeight = cellWidth * 1.35 // أو ممكن تكتب 240 مثلاً
+            let cellHeight = cellWidth * 1.3 // أو ممكن تكتب 240 مثلاً
             
             return CGSize(width: cellWidth, height: cellHeight)
         }
     }
     
+    // المسافة الرأسية بين كل صف والتاني
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView == sliderCollectionView {
             return 0
-        } else {
+        } else if collectionView == categoryCollectionView {
             return 1
+        } else {
+            return 16
         }
     }
     
+    // المسافة الأفقية بين العمودين
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView == sliderCollectionView {
             return 4
-        } else {
+        } else if collectionView == categoryCollectionView {
             return 12
+        } else {
+            return 0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if collectionView == sliderCollectionView {
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        } else {
+        } else if collectionView == categoryCollectionView {
             return UIEdgeInsets(top: 1, left: 2, bottom: 1, right: 2)
+        } else {
+//            return UIEdgeInsets(top: 10, left: 16, bottom: 16, right: 16)
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+
         }
     }
 }
