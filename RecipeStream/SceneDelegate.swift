@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
 
-        let isUserLoggedIn = true // غيرها لـ true عشان تتأكد إن الـ TabBar بيفتح
+        let isUserLoggedIn = false
         
         if isUserLoggedIn {
             window.rootViewController = HomeTabBarController()

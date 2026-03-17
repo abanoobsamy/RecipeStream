@@ -85,7 +85,6 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate {
             
             return cell
         }
-        //        return UICollectionViewCell()
     }
     
     
