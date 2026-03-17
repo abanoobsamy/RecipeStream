@@ -32,7 +32,7 @@ class LoginVC: UIViewController {
         ])
         
         containerFieldsView.addBorder(color: .colorGrayBlue, width: 0.5)
-        containerFieldsView.round(12)
+        containerFieldsView.round(24)
         logoIv.round(24)
     }
     
