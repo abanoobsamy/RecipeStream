@@ -4,10 +4,33 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Promises (Playground).xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>RecipeStream.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>6BFC6D2A2F673632005CC16B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6BFC6D402F673633005CC16B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6BFC6D4A2F673633005CC16B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

@@ -20,7 +20,7 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        setupViews()
     }
     
     override func viewDidLayoutSubviews() {
@@ -34,7 +34,9 @@ class LoginVC: UIViewController {
         containerFieldsView.addBorder(color: .colorGrayBlue, width: 0.5)
         containerFieldsView.round(12)
         logoIv.round(24)
-        
+    }
+    
+    func setupViews() {
         emailField.applyPremiumStyle(placeholderText: "name@example.com",
                                      bgColor: .colorBGDark,
                                      hasBorder: true)

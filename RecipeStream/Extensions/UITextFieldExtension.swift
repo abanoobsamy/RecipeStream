@@ -17,31 +17,27 @@ extension UITextField {
                            borderColor: UIColor = .darkGray, // لون البوردر الافتراضي
                            borderWidth: CGFloat = 1.0) {     // سمك البوردر الافتراضي
         
-        // 1. تظبيط الشكل الخارجي
         self.backgroundColor = bgColor
         self.layer.cornerRadius = cornerRadius
         self.layer.masksToBounds = true
         self.borderStyle = .none
         
-        // 2. 🖼️ تظبيط البوردر (على حسب طلبك)
         if hasBorder {
             self.layer.borderWidth = borderWidth
             self.layer.borderColor = borderColor.cgColor
         } else {
-            self.layer.borderWidth = 0 // مفيش بوردر
+            self.layer.borderWidth = 0
         }
         
-        // 3. ألوان الكلام
         self.textColor = .white
         self.tintColor = .systemPink
         
-        // 4. تظبيط لون الـ Placeholder
+        // placeholder color
         self.attributedPlaceholder = NSAttributedString(
             string: placeholderText,
             attributes: [.foregroundColor: UIColor.gray]
         )
         
-        // 5. البادينج
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: 50))
         self.leftView = paddingView
         self.leftViewMode = .always
@@ -50,13 +46,16 @@ extension UITextField {
     func enablePasswordToggle() {
         self.isSecureTextEntry = true
         
-        // 1. نرجع للزرار الـ Custom العادي جداً (أضمن بكتير من الـ Configuration في تغيير الحالات)
+        self.autocorrectionType = .no
+        self.spellCheckingType = .no
+        
+        self.textAlignment = .left
+        self.semanticContentAttribute = .forceLeftToRight
+        
         let eyeButton = UIButton(type: .custom)
-        eyeButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)   // حالة الباسورد المخفي
-        eyeButton.setImage(UIImage(systemName: "eye"), for: .selected)       // حالة الباسورد الظاهر
+        eyeButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
         eyeButton.tintColor = .lightGray
         
-        // 2. حاوية الزرار (عشان نظبط مسافة الـ Padding من اليمين)
         let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 40))
         eyeButton.frame = CGRect(x: 0, y: 0, width: 30, height: 40)
         buttonContainer.addSubview(eyeButton)
@@ -68,12 +67,23 @@ extension UITextField {
     }
     
     @objc private func togglePasswordView(_ sender: UIButton) {
-        print("Eye Button Tapped! 👁️ sender.isSelected: \(sender.isSelected)")
-        let currentText = self.text
         
-        sender.isSelected.toggle()
-        self.isSecureTextEntry = !sender.isSelected
+        print("Eye Button Tapped! 👁️ self.isSecureTextEntry: \(self.isSecureTextEntry)")
+        let currentText = self.text ?? ""
         
-        self.text = currentText
+        self.isSecureTextEntry.toggle()
+        
+        self.font = nil
+        self.font = UIFont.systemFont(ofSize: 14)
+        
+        let imageName = self.isSecureTextEntry ? "eye.slash" : "eye"
+        sender.setImage(UIImage(systemName: imageName), for: .normal)
+        
+        if self.isSecureTextEntry { // if pass is hidden
+            self.text = ""
+            self.insertText(currentText)
+        } else {
+            self.text = currentText
+        }
     }
 }
