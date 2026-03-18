@@ -20,6 +20,8 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.isNavigationBarHidden = true
+        
         setupViews()
     }
     
@@ -61,5 +63,12 @@ class LoginVC: UIViewController {
     }
     
     @IBAction func btnSignupTapped(_ sender: Any) {
+        let vc = RegisterVC()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isNavigationBarHidden = false
     }
 }

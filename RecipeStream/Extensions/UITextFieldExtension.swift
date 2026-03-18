@@ -9,6 +9,33 @@ import UIKit
 
 extension UITextField {
     
+    func addLeftIcon(_ image: UIImage?, color: UIColor = .lightGray) {
+        guard let image = image else { return }
+        
+        // 1. برواز الأيقونة عشان متبقاش لازقة في الكلام
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 40))
+        
+        // 2. الأيقونة نفسها
+        let iconView = UIImageView(frame: CGRect(x: 15, y: 10, width: 20, height: 20))
+        iconView.image = image
+        iconView.tintColor = color
+        iconView.contentMode = .scaleAspectFit
+        
+        containerView.addSubview(iconView)
+        
+        // 3. نربطها بالـ TextField
+        self.leftView = containerView
+        self.leftViewMode = .always
+    }
+    
+    func setPlaceholderColor(_ color: UIColor) {
+        guard let placeholder = self.placeholder else { return }
+        self.attributedPlaceholder = NSAttributedString(
+            string: placeholder,
+            attributes: [NSAttributedString.Key.foregroundColor: color]
+        )
+    }
+    
     func applyPremiumStyle(placeholderText: String,
                            bgColor: UIColor = UIColor(red: 30/255, green: 30/255, blue: 30/255, alpha: 1.0),
                            cornerRadius: CGFloat = 12,
