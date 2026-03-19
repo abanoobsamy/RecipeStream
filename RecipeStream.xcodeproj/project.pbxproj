@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B7144A02F6B062D00464D2F /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 6B71449F2F6B062D00464D2F /* RxCocoa */; };
+		6B7144A22F6B062D00464D2F /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6B7144A12F6B062D00464D2F /* RxSwift */; };
 		6BD360EF2F69C9B5006EC1BA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6BD360EE2F69C9B5006EC1BA /* FirebaseAuth */; };
 		6BD360F12F69C9C1006EC1BA /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6BD360F02F69C9C1006EC1BA /* FirebaseFirestore */; };
 		6BD360F42F69CA32006EC1BA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 6BD360F32F69CA32006EC1BA /* Kingfisher */; };
@@ -39,7 +41,7 @@
 		6BFC6D532F673633005CC16B /* Exceptions for "RecipeStream" folder in "RecipeStream" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Resources/Info.plist,
 			);
 			target = 6BFC6D2A2F673632005CC16B /* RecipeStream */;
 		};
@@ -73,6 +75,8 @@
 			files = (
 				6BD360F42F69CA32006EC1BA /* Kingfisher in Frameworks */,
 				6BD360EF2F69C9B5006EC1BA /* FirebaseAuth in Frameworks */,
+				6B7144A22F6B062D00464D2F /* RxSwift in Frameworks */,
+				6B7144A02F6B062D00464D2F /* RxCocoa in Frameworks */,
 				6BD360F12F69C9C1006EC1BA /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -145,6 +149,8 @@
 				6BD360EE2F69C9B5006EC1BA /* FirebaseAuth */,
 				6BD360F02F69C9C1006EC1BA /* FirebaseFirestore */,
 				6BD360F32F69CA32006EC1BA /* Kingfisher */,
+				6B71449F2F6B062D00464D2F /* RxCocoa */,
+				6B7144A12F6B062D00464D2F /* RxSwift */,
 			);
 			productName = RecipeStream;
 			productReference = 6BFC6D2B2F673632005CC16B /* RecipeStream.app */;
@@ -231,6 +237,7 @@
 			packageReferences = (
 				6BD360EC2F69C988006EC1BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				6BD360F22F69CA1F006EC1BA /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				6B71449E2F6B061400464D2F /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6BFC6D2C2F673632005CC16B /* Products */;
@@ -315,7 +322,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FTXKURDK43;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = RecipeStream/Info.plist;
+				INFOPLIST_FILE = RecipeStream/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -346,7 +353,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FTXKURDK43;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = RecipeStream/Info.plist;
+				INFOPLIST_FILE = RecipeStream/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -615,6 +622,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6B71449E2F6B061400464D2F /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.10.2;
+			};
+		};
 		6BD360EC2F69C988006EC1BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -634,6 +649,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6B71449F2F6B062D00464D2F /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B71449E2F6B061400464D2F /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		6B7144A12F6B062D00464D2F /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B71449E2F6B061400464D2F /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
 		6BD360EE2F69C9B5006EC1BA /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6BD360EC2F69C988006EC1BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

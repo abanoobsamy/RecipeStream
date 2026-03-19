@@ -15,6 +15,12 @@ extension UIView {
         self.clipsToBounds = true
     }
     
+    func round(_ bgColor: UIColor = .clear, _ radius: CGFloat = 8) {
+        self.backgroundColor = bgColor
+        self.layer.cornerRadius = radius
+        self.clipsToBounds = true
+    }
+    
     /* [.layerMinXMinYCorner, .layerMaxXMinYCorner] for top
      * [.layerMinXMaxYCorner, .layerMaxXMaxYCorner] for bottom
      */

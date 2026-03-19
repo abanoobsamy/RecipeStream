@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="btnApple" destination="dyJ-w3-wjD" id="58P-II-EGF"/>
                 <outlet property="btnGoogle" destination="o3a-Kn-cxF" id="lHU-Tr-aGo"/>
+                <outlet property="btnLogin" destination="9KG-Vn-Xtn" id="Zeq-55-Rm0"/>
                 <outlet property="containerFieldsView" destination="HTI-88-1Tf" id="xk5-zr-eXA"/>
                 <outlet property="emailField" destination="04R-Pm-szE" id="KYr-H0-qbv"/>
                 <outlet property="logoIv" destination="4yf-mX-Ang" id="ZbB-2P-f0L"/>
@@ -111,9 +112,6 @@
                                             <buttonConfiguration key="configuration" style="filled" title="Login" cornerStyle="large">
                                                 <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
                                             </buttonConfiguration>
-                                            <connections>
-                                                <action selector="btnLoginTapped:" destination="-1" eventType="touchUpInside" id="I1z-ss-is7"/>
-                                            </connections>
                                         </button>
                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Lwt-Ca-v9Y">
                                             <rect key="frame" x="32" y="301.99999999999994" width="281" height="16"/>
@@ -156,9 +154,6 @@
                                                     <buttonConfiguration key="configuration" style="filled" image="apple.logo" catalog="system" title="Apple" cornerStyle="large">
                                                         <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="16"/>
                                                     </buttonConfiguration>
-                                                    <connections>
-                                                        <action selector="btnAppleTapped:" destination="-1" eventType="touchUpInside" id="bCT-JD-GMC"/>
-                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o3a-Kn-cxF">
                                                     <rect key="frame" x="148.66666666666663" y="0.0" width="132.33333333333337" height="44"/>
@@ -170,9 +165,6 @@
                                                     <buttonConfiguration key="configuration" style="filled" image="Google" title="Google" cornerStyle="large">
                                                         <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="16"/>
                                                     </buttonConfiguration>
-                                                    <connections>
-                                                        <action selector="btnGoogleTapped:" destination="-1" eventType="touchUpInside" id="eW0-cO-efv"/>
-                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>

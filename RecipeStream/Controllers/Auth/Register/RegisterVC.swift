@@ -6,15 +6,19 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class RegisterVC: UIViewController {
-    
+        
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmPassField: UITextField!
     @IBOutlet weak var btnPolicy: UIButton!
     @IBOutlet weak var policyLbl: UITextView!
+    
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +43,18 @@ class RegisterVC: UIViewController {
         
         btnPolicy.setImage(UIImage(systemName: "square"), for: .normal)
         btnPolicy.tintColor = .lightGray
+        
+        policyLbl.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer()
+        policyLbl.addGestureRecognizer(tapGesture)
+        
+        tapGesture.rx.event
+            .bind(onNext: { [weak self] _ in
+                print("Privacy Policy Tapped")
+                let vc = PrivacyPolicyVC()
+                self?.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     func setupToolbar() {
@@ -46,7 +62,7 @@ class RegisterVC: UIViewController {
     }
     
     @IBAction func btnPolicyTapped(_ sender: Any) {
-        print("bob")
+        print("btnPolicyTapped")
         
         if let button = sender as? UIButton {
             button.isSelected = !button.isSelected
@@ -74,3 +90,4 @@ class RegisterVC: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
+
