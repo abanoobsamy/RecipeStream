@@ -9,7 +9,7 @@ import RxSwift
 
 protocol AuthServiceProtocol {
     func login(email: String, password: String) -> Completable
-    func signUp(email: String, password: String) -> Completable
+    func signUp(name: String, email: String, password: String) -> Completable
     func signOut() -> Completable
     func resetPassword(email: String) -> Completable
     func getCurrentUserId() -> String?

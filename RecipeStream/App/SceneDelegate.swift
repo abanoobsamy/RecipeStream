@@ -18,10 +18,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
 
-        let isUserLoggedIn = false
+        let isUserLoggedIn = SessionManager.isLoggedIn
         
         if isUserLoggedIn {
             window.rootViewController = HomeTabBarController()
+            print("Welcome back, \(SessionManager.currentUser?.name ?? "")")
         } else {
             let loginVC = LoginVC()
             let navigationController = UINavigationController(rootViewController: loginVC)

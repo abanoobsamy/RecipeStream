@@ -18,6 +18,7 @@ class HomeVC: UIViewController {
     @IBOutlet weak var notificationIv: UIImageView!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var recommendedCVHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var titleLbl: UILabel!
     
     // variables
     var timer: Timer?
@@ -36,10 +37,16 @@ class HomeVC: UIViewController {
         
         setupCollectionView()
         setupPager()
+        setupViews()
         
         // بيعمل Select لأول عنصر (All) تلقائياً
         let firstIndexPath = IndexPath(item: 0, section: 0)
         categoryCollectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: .right)
+    }
+    
+    func setupViews() {
+        let user = SessionManager.currentUser
+        titleLbl.text = user?.name ?? "No User Name"
     }
     
     override func viewDidLayoutSubviews() {

@@ -9,6 +9,7 @@ import UIKit
 
 class PrivacyPolicyVC: UIViewController {
 
+    // outlets
     @IBOutlet weak var mainStackView: UIStackView!
     @IBOutlet weak var legalView: UIView!
     @IBOutlet weak var infoIV: UIImageView!
@@ -26,6 +27,10 @@ class PrivacyPolicyVC: UIViewController {
     @IBOutlet weak var rightsView: UIView!
     @IBOutlet weak var rightsIV: UIImageView!
     @IBOutlet weak var contactEmailView: UIView!
+    
+    var allCards: [UIView] {
+        return [infoContainerView, collectionView, dataUsageView, rightsView].compactMap { $0 }
+    }
     
     @IBOutlet weak var dataUsageView: UIView!
     override func viewDidLoad() {
@@ -91,18 +96,13 @@ class PrivacyPolicyVC: UIViewController {
     }
     
     private func setupCardSelection() {
-        // 1. ندي لكل كارت رقم (Tag) عشان نميزهم
-        infoContainerView.tag = 0
-        collectionView.tag = 1
-        dataUsageView.tag = 2
-        rightsView.tag = 3
         
-        // 2. نفعل الضغط على كل الكروت
-        let cards = [infoContainerView, collectionView, dataUsageView, rightsView]
-        for card in cards {
-            card?.isUserInteractionEnabled = true
+        allCards.enumerated().forEach { index, card in
+            card.tag = index
+            card.isUserInteractionEnabled = true
+            
             let tap = UITapGestureRecognizer(target: self, action: #selector(cardTapped(_:)))
-            card?.addGestureRecognizer(tap)
+            card.addGestureRecognizer(tap)
         }
         
         // 3. نخلي كارت معين هو اللي متحدد في البداية (مثلاً الكارت الثاني زي صورتك)
@@ -115,16 +115,14 @@ class PrivacyPolicyVC: UIViewController {
         selectCard(at: tappedView.tag) // بنبعت رقم الكارت اللي انداس عليه
     }
 
-    // دالة التحكم في الخطوط (The Senior Way)
     private func selectCard(at index: Int) {
         let allLines = [infoLineView, colectionLineView, dataLineView, rightsLineView]
         
-        // بنعمل أنيميشن ناعم (0.3 ثانية) عشان الخط ميظهرش فجأة ويخض اليوزر
         UIView.animate(withDuration: 0.3) {
             for (i, line) in allLines.enumerated() {
-                // التريكة هنا: الخط هيكون مخفي (true) لو رقمه مش نفس رقم الكارت اللي دوسنا عليه
                 line?.isHidden = (i != index)
             }
+            self.view.layoutIfNeeded()
         }
     }
 }

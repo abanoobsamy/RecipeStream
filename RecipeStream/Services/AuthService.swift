@@ -4,33 +4,79 @@
 //
 //  Created by Abanoob Samy on 18/03/2026.
 //
+
 import Foundation
 import RxSwift
 import FirebaseAuth
+import FirebaseFirestore
 
 class AuthService: AuthServiceProtocol {
     
+    private let db = Firestore.firestore()
+        
     func login(email: String, password: String) -> Completable {
         return Completable.create { completable in
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                 if let error = error {
                     completable(.error(error))
-                } else  {
-                    completable(.completed)
+                    return
                 }
+                guard let uid = authResult?.user.uid else {
+                    let unknownError = NSError(domain: "AuthError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unknown login error."])
+                    completable(.error(unknownError))
+                    return
+                }
+                _ = FirestoreManager.shared.getDocument(
+                    collection: Constants.Firestore.Collections.users,
+                    documentId: uid,
+                    as: UserModel.self
+                ).subscribe(onSuccess: { user in
+                    print("User name: \(user.name)")
+                    SessionManager.currentUser = user
+                    completable(.completed)
+                }, onFailure: { error in
+                    completable(.error(error))
+                })
             }
             return Disposables.create()
         }
     }
     
-    func signUp(email: String, password: String) -> Completable {
+    func signUp(name: String, email: String, password: String) -> Completable {
         return Completable.create { completable in
             Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                 if let error = error {
                     completable(.error(error))
-                } else  {
-                    completable(.completed)
+                    return
                 }
+
+                guard let uid = authResult?.user.uid else {
+                    let unknownError = NSError(domain: "AuthError", code: 0,
+                                               userInfo: [NSLocalizedDescriptionKey: "An unknown error occurred; we were unable to retrieve user data."])
+                    completable(.error(unknownError))
+                    return
+                }
+                
+                let newUser = UserModel(
+                    uid: uid,
+                    name: name,
+                    email: email,
+                    favorites: []
+                ) // the server will understand the time createdAt by default adding to firestore
+                
+                _ = FirestoreManager.shared.setDocument(
+                    collection: Constants.Firestore.Collections.users,
+                    documentId: uid,
+                    data: newUser
+                ).subscribe(
+                    onCompleted: {
+                        SessionManager.currentUser = newUser
+                        completable(.completed)
+                    },
+                    onError: { error in
+                        completable(.error(error))
+                    }
+                )
             }
             return Disposables.create()
         }
@@ -65,6 +111,5 @@ class AuthService: AuthServiceProtocol {
     func getCurrentUserId() -> String? {
         return Auth.auth().currentUser?.uid
     }
-    
-    
 }
+

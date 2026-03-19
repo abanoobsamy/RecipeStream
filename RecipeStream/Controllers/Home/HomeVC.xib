@@ -19,6 +19,7 @@
                 <outlet property="recommendedCollectionView" destination="Khy-tU-Q5c" id="9AR-EA-h5T"/>
                 <outlet property="seeAllBtn" destination="xR6-Dy-gpu" id="qvO-QZ-ezR"/>
                 <outlet property="sliderCollectionView" destination="dsg-Nc-0sS" id="Gfo-ip-NYe"/>
+                <outlet property="titleLbl" destination="M5J-1s-2yq" id="dFb-WK-TCy"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

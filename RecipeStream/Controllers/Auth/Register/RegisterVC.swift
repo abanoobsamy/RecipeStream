@@ -18,6 +18,14 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var btnPolicy: UIButton!
     @IBOutlet weak var policyLbl: UITextView!
     
+    @IBOutlet weak var btnRegister: UIButton!
+    @IBOutlet weak var btnApple: UIButton!
+    @IBOutlet weak var btnGoogle: UIButton!
+    
+    private let spinner = UIActivityIndicatorView(style: .medium)
+    
+    // MARK: - Properties
+    private let viewModel = RegisterViewModel()
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -25,6 +33,11 @@ class RegisterVC: UIViewController {
         
         setupToolbar()
         setupViews()
+        setupBindings()
+    }
+    
+    func setupToolbar() {
+        self.title = "Sign Up"
     }
     
     func setupViews() {
@@ -48,6 +61,14 @@ class RegisterVC: UIViewController {
         let tapGesture = UITapGestureRecognizer()
         policyLbl.addGestureRecognizer(tapGesture)
         
+        spinner.color = .white
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        btnRegister.addSubview(spinner)
+        NSLayoutConstraint.activate([
+            spinner.centerYAnchor.constraint(equalTo: btnRegister.centerYAnchor),
+            spinner.centerXAnchor.constraint(equalTo: btnRegister.centerXAnchor)
+        ])
+        
         tapGesture.rx.event
             .bind(onNext: { [weak self] _ in
                 print("Privacy Policy Tapped")
@@ -57,32 +78,98 @@ class RegisterVC: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    func setupToolbar() {
-        self.title = "Sign Up"
-    }
-    
-    @IBAction func btnPolicyTapped(_ sender: Any) {
-        print("btnPolicyTapped")
+    func setupBindings() {
         
-        if let button = sender as? UIButton {
-            button.isSelected = !button.isSelected
-            let imageName = button.isSelected ? "checkmark.square.fill" : "square"
-            button.setImage(UIImage(systemName: imageName), for: .normal)
-            
-            button.tintColor = button.isSelected ? .systemPink : .lightGray
-            
-            print("Checkbox State is now: \(button.isSelected)")
-        }
+        nameField.rx.text.orEmpty
+            .bind(to: viewModel.nameText)
+            .disposed(by: disposeBag)
+        
+        emailField.rx.text.orEmpty
+            .bind(to: viewModel.emailText)
+            .disposed(by: disposeBag)
+        
+        passwordField.rx.text.orEmpty
+            .bind(to: viewModel.passwordText)
+            .disposed(by: disposeBag)
+        
+        confirmPassField.rx.text.orEmpty
+            .bind(to: viewModel.confirmPassText)
+            .disposed(by: disposeBag)
+        
+        btnRegister.rx.tap
+            .bind(to: viewModel.registerButtonTapped)
+            .disposed(by: disposeBag)
+        
+        btnPolicy.rx.tap
+            .bind(onNext: { [weak self] in
+                guard let self = self else { return }
+                btnPolicy.isSelected.toggle()
+                let imageName = btnPolicy.isSelected ? "checkmark.square.fill" : "square"
+                btnPolicy.setImage(UIImage(systemName: imageName), for: .normal)
+                btnPolicy.tintColor = btnPolicy.isSelected ? .systemPink : .lightGray
+                
+                // If your viewModel exposes a PublishRelay<Bool> for isChecked:
+                viewModel.isChecked.accept(btnPolicy.isSelected)
+                // Otherwise adapt to your API as needed
+                
+                print("btnPolicyTapped \(btnPolicy.isSelected)")
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isRegEnabled
+            .subscribe(onNext: { [weak self] isEnabled in
+                guard let self else { return }
+                btnRegister.isEnabled = isEnabled
+                btnRegister.alpha = isEnabled ? 1.0 : 0.5
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isLoading
+            .subscribe(onNext: { [weak self] isLoading in
+                guard let self else { return }
+                
+                if isLoading {
+                    btnRegister.setTitle("", for: .normal)
+                    spinner.startAnimating()
+                } else {
+                    btnRegister.setTitle("Sign Up", for: .normal)
+                    spinner.stopAnimating()
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.registerSuccess
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                navigateToHome()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.errorMessage
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] message in
+                guard let self else { return }
+                showErrorAlert(message: message)
+            })
+            .disposed(by: disposeBag)
     }
     
-    @IBAction func BtnRegisterTapped(_ sender: Any) {
-        print("policy selected: \(btnPolicy.isSelected)")
+    private func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Oops!", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
     
-    @IBAction func btnAppleTapped(_ sender: Any) {
-    }
-    
-    @IBAction func btnGoogleTapped(_ sender: Any) {
+    private func navigateToHome() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else { return }
+        
+        let mainTabBar = HomeTabBarController()
+        
+        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            window.rootViewController = mainTabBar
+        }, completion: nil)
     }
     
     @IBAction func btnLoginTapped(_ sender: Any) {

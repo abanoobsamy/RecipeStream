@@ -11,7 +11,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegisterVC" customModule="RecipeStream" customModuleProvider="target">
             <connections>
+                <outlet property="btnApple" destination="aGD-tt-59Z" id="Dcc-lp-Vmn"/>
+                <outlet property="btnGoogle" destination="yHh-Hq-zxm" id="djB-tn-3dU"/>
                 <outlet property="btnPolicy" destination="sKW-82-jDV" id="Q4Z-S9-mHA"/>
+                <outlet property="btnRegister" destination="7Ng-ud-Xgl" id="SUb-cV-rMg"/>
                 <outlet property="confirmPassField" destination="W4P-HT-lZh" id="EH3-gu-AhH"/>
                 <outlet property="emailField" destination="0Qw-iL-S1g" id="P6T-O5-RPt"/>
                 <outlet property="nameField" destination="49a-ta-viF" id="k6q-hs-nif"/>
@@ -122,9 +125,6 @@ start sharing.</string>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="8" maxX="0.0" maxY="0.0"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="square" catalog="system" imagePadding="0.0"/>
-                                                    <connections>
-                                                        <action selector="btnPolicyTapped:" destination="-1" eventType="touchUpInside" id="3c5-qF-a0E"/>
-                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -204,9 +204,6 @@ start sharing.</string>
                                     <buttonConfiguration key="configuration" style="filled" title="Sign Up" cornerStyle="large">
                                         <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
                                     </buttonConfiguration>
-                                    <connections>
-                                        <action selector="BtnRegisterTapped:" destination="-1" eventType="touchUpInside" id="D9u-UZ-BxA"/>
-                                    </connections>
                                 </button>
                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="XvH-h9-34J">
                                     <rect key="frame" x="20" y="657.33333333333337" width="353" height="20"/>
@@ -250,9 +247,6 @@ start sharing.</string>
                                             <buttonConfiguration key="configuration" style="filled" image="apple.logo" catalog="system" title="Apple" cornerStyle="large">
                                                 <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="16"/>
                                             </buttonConfiguration>
-                                            <connections>
-                                                <action selector="btnAppleTapped:" destination="-1" eventType="touchUpInside" id="GKa-ae-7Fo"/>
-                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yHh-Hq-zxm">
                                             <rect key="frame" x="184.66666666666663" y="0.0" width="168.33333333333337" height="44"/>
@@ -264,9 +258,6 @@ start sharing.</string>
                                             <buttonConfiguration key="configuration" style="filled" image="Google" title="Google" cornerStyle="large">
                                                 <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="16"/>
                                             </buttonConfiguration>
-                                            <connections>
-                                                <action selector="btnGoogleTapped:" destination="-1" eventType="touchUpInside" id="82j-QT-z8A"/>
-                                            </connections>
                                         </button>
                                     </subviews>
                                 </stackView>
