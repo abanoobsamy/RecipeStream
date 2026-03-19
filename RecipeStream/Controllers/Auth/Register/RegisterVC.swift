@@ -8,9 +8,10 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import PhotosUI
 
 class RegisterVC: UIViewController {
-        
+
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -21,11 +22,14 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var btnRegister: UIButton!
     @IBOutlet weak var btnApple: UIButton!
     @IBOutlet weak var btnGoogle: UIButton!
+    @IBOutlet weak var btnAdd: UIButton!
+    @IBOutlet weak var btnUpload: UIButton!
     
+    @IBOutlet weak var userIV: UIImageView!
     private let spinner = UIActivityIndicatorView(style: .medium)
     
     // MARK: - Properties
-    private let viewModel = RegisterViewModel()
+    let viewModel = RegisterViewModel()
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -56,11 +60,7 @@ class RegisterVC: UIViewController {
         
         btnPolicy.setImage(UIImage(systemName: "square"), for: .normal)
         btnPolicy.tintColor = .lightGray
-        
-        policyLbl.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer()
-        policyLbl.addGestureRecognizer(tapGesture)
-        
+                
         spinner.color = .white
         spinner.translatesAutoresizingMaskIntoConstraints = false
         btnRegister.addSubview(spinner)
@@ -69,16 +69,39 @@ class RegisterVC: UIViewController {
             spinner.centerXAnchor.constraint(equalTo: btnRegister.centerXAnchor)
         ])
         
-        tapGesture.rx.event
+        let darkColor = UIColor(red: 0.16, green: 0.22, blue: 0.29, alpha: 1.0)
+        userIV.makeDashedCircle(color: darkColor, lineWidth: 2, dashPattern: [12, 10])
+    }
+    
+    func setupBindings() {
+        
+        policyLbl.isUserInteractionEnabled = true
+        let policyTapGesture = UITapGestureRecognizer()
+        policyLbl.addGestureRecognizer(policyTapGesture)
+
+        policyTapGesture.rx.event
             .bind(onNext: { [weak self] _ in
                 print("Privacy Policy Tapped")
                 let vc = PrivacyPolicyVC()
                 self?.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
-    }
-    
-    func setupBindings() {
+
+        btnAdd.isUserInteractionEnabled = true
+        btnUpload.isUserInteractionEnabled = true
+        userIV.isUserInteractionEnabled = true
+        
+        let uploadTapGesture = UITapGestureRecognizer()
+        btnAdd.addGestureRecognizer(uploadTapGesture)
+        btnUpload.addGestureRecognizer(uploadTapGesture)
+        userIV.addGestureRecognizer(uploadTapGesture)
+
+        uploadTapGesture.rx.event
+            .bind(onNext: { [weak self] _ in
+                print("Upload Image Tapped")
+                self?.openGallery()
+            })
+            .disposed(by: disposeBag)
         
         nameField.rx.text.orEmpty
             .bind(to: viewModel.nameText)
@@ -95,7 +118,7 @@ class RegisterVC: UIViewController {
         confirmPassField.rx.text.orEmpty
             .bind(to: viewModel.confirmPassText)
             .disposed(by: disposeBag)
-        
+                
         btnRegister.rx.tap
             .bind(to: viewModel.registerButtonTapped)
             .disposed(by: disposeBag)
@@ -153,6 +176,20 @@ class RegisterVC: UIViewController {
                 showErrorAlert(message: message)
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func openGallery() {
+        // 1. نجهز إعدادات المعرض
+        var config = PHPickerConfiguration()
+        config.selectionLimit = 1 // عايزين صورة واحدة بس للبروفايل
+        config.filter = .images // يعرض صور بس (يخفي الفيديوهات)
+        
+        // 2. ننشئ الشاشة بتاعة المعرض
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self // عشان يرد علينا بالصورة اللي اليوزر اختارها
+        
+        // 3. نعرض الشاشة
+        present(picker, animated: true)
     }
     
     private func showErrorAlert(message: String) {

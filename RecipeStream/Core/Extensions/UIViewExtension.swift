@@ -58,4 +58,36 @@ extension UIView {
         // ملاحظة: تأكد أيضاً من أن cornerRadius مضبوط على نصف الارتفاع/العرض لجعل الـ View دائرياً
         self.layer.masksToBounds = false
     }
+    
+    func makeDashedCircle(color: UIColor = .gray, lineWidth: CGFloat = 2, dashPattern: [NSNumber] = [10, 8]) {
+        
+        layer.cornerRadius = min(frame.width, frame.height) / 2
+        layer.masksToBounds = true
+        
+        // 2. بنعمل الـ Layer اللي هيترسم عليه الخط المنقط
+        let dashedLayer = CAShapeLayer()
+        dashedLayer.strokeColor = color.cgColor // لون الخط
+        dashedLayer.fillColor = nil // مش عايزين نملى الدايرة بلون، عايزينها شفافة
+        dashedLayer.lineWidth = lineWidth // تخانة الخط
+        dashedLayer.lineDashPattern = dashPattern // 🪄 السحر هنا: طول الشرطة والمسافة بين الشرط
+        
+        // 3. بنحدد مسار الدايرة اللي الـ Layer هيمشي عليه
+        let circularPath = UIBezierPath(arcCenter: CGPoint(x: bounds.midX, y: bounds.midY),
+                                        radius: (min(frame.width, frame.height) / 2) - (lineWidth / 2),
+                                        startAngle: 0,
+                                        endAngle: .pi * 2,
+                                        clockwise: true)
+        dashedLayer.path = circularPath.cgPath
+        
+        // 4. بنضيف الـ Layer ده فوق الـ View بتاعنا
+        layer.addSublayer(dashedLayer)
+    }
+    
+    func makeCircular(borderWidth: CGFloat = 0, borderColor: UIColor = .clear) {
+        self.layer.cornerRadius = self.frame.height / 2
+        self.clipsToBounds = true
+        
+        self.layer.borderWidth = borderWidth
+        self.layer.borderColor = borderColor.cgColor
+    }
 }

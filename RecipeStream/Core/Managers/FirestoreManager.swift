@@ -75,4 +75,30 @@ class FirestoreManager {
             return Disposables.create()
         }
     }
+    
+    func isUsernameAvailable(username: String) -> Single<Bool> {
+        return Single.create { single in
+            let safeUsername = username.lowercased().trimmingCharacters(in: .whitespaces)
+            
+            guard !safeUsername.isEmpty else {
+                single(.success(false))
+                return Disposables.create()
+            }
+            
+            let task = Task {
+                do {
+                    let snapshot = try await self.db.collection(Constants.Firestore.Collections.users)
+                        .whereField("username", isEqualTo: safeUsername)
+                        .getDocuments()
+                    
+                    single(.success(snapshot.isEmpty))
+                    
+                } catch {
+                    single(.failure(error))
+                }
+            }
+            
+            return Disposables.create { task.cancel() }
+        }
+    }
 }

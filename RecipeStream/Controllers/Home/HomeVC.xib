@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeVC" customModule="RecipeStream" customModuleProvider="target">
             <connections>
                 <outlet property="categoryCollectionView" destination="bR2-ZP-k30" id="SwB-VD-Xro"/>
+                <outlet property="greetingsLbl" destination="7Vx-eY-9Ln" id="vek-aW-zIf"/>
                 <outlet property="imageIv" destination="GAR-ee-32I" id="UXC-jg-XoI"/>
                 <outlet property="notificationIv" destination="gI4-a7-LFi" id="6BM-Ng-9gX"/>
                 <outlet property="pageControl" destination="eYr-5h-x2M" id="JTr-xf-Fgm"/>

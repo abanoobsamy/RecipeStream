@@ -27,6 +27,7 @@ class HomeTabBarController: UITabBarController {
         // الشاشة الأولى: الوصفات (Home)
         let homeVC = HomeVC()
         let homeNav = UINavigationController(rootViewController: homeVC)
+        homeNav.isNavigationBarHidden = true
         homeNav.tabBarItem = UITabBarItem(title: "Home",
                                           image: UIImage(systemName: "house.fill"),
                                           tag: 0)
@@ -47,10 +48,9 @@ class HomeTabBarController: UITabBarController {
                                                image: UIImage(systemName: "heart"),
                                                selectedImage: UIImage(systemName: "heart.fill"))
         
-        let profileVC = UIViewController() // default vc for now
-        profileVC.view.backgroundColor = .systemBlue
-        profileVC.title = "Profile"
+        let profileVC = ProfileVC()
         let profileNav = UINavigationController(rootViewController: profileVC)
+        profileNav.isNavigationBarHidden = true
         profileNav.tabBarItem = UITabBarItem(title: "Profile",
                                              image: UIImage(systemName: "person"),
                                              selectedImage: UIImage(systemName: "person.fill"))

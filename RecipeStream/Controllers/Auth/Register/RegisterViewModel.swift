@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import UIKit
 
 class RegisterViewModel {
     
@@ -19,6 +20,7 @@ class RegisterViewModel {
     let passwordText = BehaviorRelay<String>(value: "")
     let confirmPassText = BehaviorRelay<String>(value: "")
     let isChecked = BehaviorRelay<Bool>(value: false)
+    let selctedImage = BehaviorRelay<UIImage?>(value: nil)
     let registerButtonTapped = PublishRelay<Void>()
     
     let isRegEnabled: RxSwift.Observable<Bool>
@@ -26,38 +28,64 @@ class RegisterViewModel {
     let registerSuccess = PublishRelay<Void>()
     let errorMessage = PublishRelay<String>()
     
+    private let generatedUniqueUsername = BehaviorRelay<String?>(value: nil)
+    
     init(authService: AuthServiceProtocol = AuthService()) {
         self.authService = authService
+                
+        let username = generatedUniqueUsername.asObservable()
+        let name = nameText.asObservable()
+        let email = emailText.asObservable()
+        let password = passwordText.asObservable()
+        let confirmPass = confirmPassText.asObservable()
+        let isChecked = isChecked.asObservable()
+        let image = selctedImage.asObservable()
         
         isRegEnabled = RxSwift.Observable.combineLatest(
-            nameText.asObservable(),
-            emailText.asObservable(),
-            passwordText.asObservable(),
-            confirmPassText.asObservable(),
-            isChecked.asObservable()
-        ) { name, email, password, confirmPass, isChecked in
-            return !name.isEmpty && !email.isEmpty && password.count >= 6 && password == confirmPass && isChecked
+            username,
+            name,
+            email,
+            password,
+            confirmPass,
+            isChecked,
+            image
+        ) { username, name, email, password, confirmPass, isChecked, image in
+            
+            let isNameValid = !name.isEmpty
+            let isEmailValid = email.contains("@") && email.contains(".")
+            let isPasswordValid = password.count >= 6 && password == confirmPass
+            let isImageSelected = image != nil
+            let isUsernameReady = username != nil
+            
+            return isNameValid && isEmailValid && isPasswordValid && isChecked && isImageSelected && isUsernameReady
         }
         
         registerButtonTapped
             .withLatestFrom(RxSwift.Observable.combineLatest(
-                nameText.asObservable(),
-                emailText.asObservable(),
-                passwordText.asObservable(),
-                confirmPassText.asObservable(),
-                isChecked.asObservable())
+                username,
+                name,
+                email,
+                password,
+                confirmPass,
+                isChecked,
+                image)
             )
-            .subscribe(onNext: { [weak self] name, email, password, confirmPass, isChecked in
+            .subscribe(onNext: { [weak self] username, name, email, password, confirmPass, isChecked, image in
                 guard let self else { return }
-                performRegister(name: name, email: email, password: password)
+                
+                let finalUsernameToRegister = username ?? name.lowercased().replacingOccurrences(of: " ", with: ".")
+
+                performRegister(username: finalUsernameToRegister, name: name, email: email, password: password, image: image)
             })
             .disposed(by: disposeBag)
+        
+        setupAutomaticUsernameGeneration()
     }
     
-    func performRegister(name: String, email: String, password: String) {
+    func performRegister(username: String, name: String, email: String, password: String, image: UIImage?) {
         isLoading.accept(true)
-        
-        authService.signUp(name: name, email: email, password: password)
+                
+        authService.signUp(username: username, name: name, email: email, password: password, profileImage: image)
             .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .userInitiated))
             .observe(on: MainScheduler.instance)
             .subscribe(
@@ -74,5 +102,43 @@ class RegisterViewModel {
             )
             .disposed(by: disposeBag)
         
+    }
+
+    private func setupAutomaticUsernameGeneration() {
+        nameText.asObservable()
+            .debounce(.milliseconds(800), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .filter { !$0.isEmpty && $0.count >= 3 }
+            .flatMapLatest { [weak self] fullName -> RxSwift.Observable<String> in
+                guard let self = self else { return RxSwift.Observable.just("") }
+                
+                let components = fullName.lowercased().components(separatedBy: .whitespaces).filter { !$0.isEmpty }
+                let baseName = components.joined(separator: ".")
+                
+                return checkAndGenerateRecursive(currentAttempt: baseName, baseName: baseName)
+                    .asObservable() // تحويل Single لـ Observable
+                    .catchAndReturn("")
+            }
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] finalUsername in
+                if !finalUsername.isEmpty {
+                    self?.generatedUniqueUsername.accept(finalUsername)
+                    print("✅ Network Success: \(finalUsername)")
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func checkAndGenerateRecursive(currentAttempt: String, baseName: String) -> Single<String> {
+        return FirestoreManager.shared.isUsernameAvailable(username: currentAttempt)
+            .flatMap { isAvailable -> Single<String> in
+                if isAvailable {
+                    return .just(currentAttempt)
+                } else {
+                    let randomNumber = Int.random(in: 10...999)
+                    let newAttempt = "\(baseName)\(randomNumber)"
+                    return self.checkAndGenerateRecursive(currentAttempt: newAttempt, baseName: baseName)
+                }
+            }
     }
 }

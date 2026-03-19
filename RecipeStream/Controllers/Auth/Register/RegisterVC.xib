@@ -11,15 +11,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegisterVC" customModule="RecipeStream" customModuleProvider="target">
             <connections>
+                <outlet property="btnAdd" destination="E7C-cr-a3h" id="max-HF-XuS"/>
                 <outlet property="btnApple" destination="aGD-tt-59Z" id="Dcc-lp-Vmn"/>
                 <outlet property="btnGoogle" destination="yHh-Hq-zxm" id="djB-tn-3dU"/>
                 <outlet property="btnPolicy" destination="sKW-82-jDV" id="Q4Z-S9-mHA"/>
                 <outlet property="btnRegister" destination="7Ng-ud-Xgl" id="SUb-cV-rMg"/>
+                <outlet property="btnUpload" destination="8aj-Eg-Pl4" id="qcC-i9-vMg"/>
                 <outlet property="confirmPassField" destination="W4P-HT-lZh" id="EH3-gu-AhH"/>
                 <outlet property="emailField" destination="0Qw-iL-S1g" id="P6T-O5-RPt"/>
                 <outlet property="nameField" destination="49a-ta-viF" id="k6q-hs-nif"/>
                 <outlet property="passwordField" destination="5Wl-vd-dyU" id="s7c-V0-RaA"/>
                 <outlet property="policyLbl" destination="3O9-iH-dW2" id="GYD-Qr-VHh"/>
+                <outlet property="userIV" destination="tdH-Tm-NcK" id="j5X-3a-zRf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -32,7 +35,7 @@
                     <rect key="frame" x="0.0" y="118" width="393" height="734"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4dN-de-i1p">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="874.66666666666663"/>
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="1053"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SfA-0u-I7r">
                                     <rect key="frame" x="20" y="16" width="353" height="28.666666666666671"/>
@@ -49,13 +52,13 @@ start sharing.</string>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uEf-TT-jg9">
-                                    <rect key="frame" x="20" y="125.33333333333334" width="353" height="17"/>
+                                    <rect key="frame" x="20" y="303.66666666666669" width="353" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" name="ColorWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Abanoob Samy" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="49a-ta-viF">
-                                    <rect key="frame" x="20" y="150.33333333333331" width="353" height="48"/>
+                                    <rect key="frame" x="20" y="328.66666666666669" width="353" height="48"/>
                                     <color key="backgroundColor" name="ColorDarkGray"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="48" id="9Kf-hq-Uws"/>
@@ -64,13 +67,13 @@ start sharing.</string>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZCV-gq-5lg">
-                                    <rect key="frame" x="20" y="214.33333333333331" width="353" height="17"/>
+                                    <rect key="frame" x="20" y="392.66666666666669" width="353" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" name="ColorWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="name@example.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Qw-iL-S1g">
-                                    <rect key="frame" x="20" y="239.33333333333331" width="353" height="48"/>
+                                    <rect key="frame" x="20" y="417.66666666666663" width="353" height="48"/>
                                     <color key="backgroundColor" name="ColorDarkGray"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="48" id="Vah-B0-yuo"/>
@@ -79,13 +82,13 @@ start sharing.</string>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yDq-ko-nl4">
-                                    <rect key="frame" x="20" y="303.33333333333331" width="353" height="17"/>
+                                    <rect key="frame" x="20" y="481.66666666666663" width="353" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" name="ColorWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Create a password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Wl-vd-dyU">
-                                    <rect key="frame" x="20" y="328.33333333333331" width="353" height="48"/>
+                                    <rect key="frame" x="20" y="506.66666666666663" width="353" height="48"/>
                                     <color key="backgroundColor" name="ColorDarkGray"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="48" id="ilg-ER-Eal"/>
@@ -94,13 +97,13 @@ start sharing.</string>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirm password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="93M-gz-x1l">
-                                    <rect key="frame" x="20" y="392.33333333333331" width="353" height="17"/>
+                                    <rect key="frame" x="20" y="570.66666666666663" width="353" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" name="ColorWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Repeat password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W4P-HT-lZh">
-                                    <rect key="frame" x="20" y="417.33333333333337" width="353" height="48"/>
+                                    <rect key="frame" x="20" y="595.66666666666663" width="353" height="48"/>
                                     <color key="backgroundColor" name="ColorDarkGray"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="48" id="4p0-kk-32S"/>
@@ -109,7 +112,7 @@ start sharing.</string>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="p47-ud-JvG">
-                                    <rect key="frame" x="20" y="481.33333333333337" width="353" height="56"/>
+                                    <rect key="frame" x="20" y="659.66666666666663" width="353" height="56"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aE1-vb-27O">
                                             <rect key="frame" x="0.0" y="0.0" width="32" height="40"/>
@@ -194,7 +197,7 @@ start sharing.</string>
                                     </constraints>
                                 </stackView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ng-ud-Xgl">
-                                    <rect key="frame" x="20" y="577.33333333333337" width="353" height="48"/>
+                                    <rect key="frame" x="20" y="755.66666666666663" width="353" height="48"/>
                                     <color key="backgroundColor" name="ColorRedGray"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="48" id="ZvN-2J-Egw"/>
@@ -206,23 +209,23 @@ start sharing.</string>
                                     </buttonConfiguration>
                                 </button>
                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="XvH-h9-34J">
-                                    <rect key="frame" x="20" y="657.33333333333337" width="353" height="20"/>
+                                    <rect key="frame" x="20" y="835.66666666666663" width="353" height="20"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MXV-an-I50">
-                                            <rect key="frame" x="0.0" y="9.6666666666666288" width="101" height="1"/>
+                                            <rect key="frame" x="0.0" y="9.6666666666667425" width="101" height="1"/>
                                             <color key="backgroundColor" name="ColorGrayBlue"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="1" id="QHe-vq-I5V"/>
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="OR CONTINUE WITH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ua-dc-mhb">
-                                            <rect key="frame" x="109" y="1.6666666666666288" width="135" height="17"/>
+                                            <rect key="frame" x="109" y="1.6666666666667425" width="135" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" name="ColorGrayBlue"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jg8-5G-jka">
-                                            <rect key="frame" x="252" y="9.6666666666666288" width="101" height="1"/>
+                                            <rect key="frame" x="252" y="9.6666666666667425" width="101" height="1"/>
                                             <color key="backgroundColor" name="ColorGrayBlue"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="1" id="6Iz-J2-79Y"/>
@@ -235,7 +238,7 @@ start sharing.</string>
                                     </constraints>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="kGc-Zt-rMb">
-                                    <rect key="frame" x="20" y="709.33333333333337" width="353" height="44"/>
+                                    <rect key="frame" x="20" y="887.66666666666663" width="353" height="44"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGD-tt-59Z">
                                             <rect key="frame" x="0.0" y="0.0" width="168.66666666666666" height="44"/>
@@ -262,7 +265,7 @@ start sharing.</string>
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C1V-Ne-f7A">
-                                    <rect key="frame" x="20" y="793.33333333333337" width="353" height="33.333333333333371"/>
+                                    <rect key="frame" x="20" y="971.66666666666674" width="353" height="33.333333333333371"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Already have an account? " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J3v-xY-OBU">
                                             <rect key="frame" x="0.0" y="0.0" width="225" height="33.333333333333336"/>
@@ -286,6 +289,32 @@ start sharing.</string>
                                         </button>
                                     </subviews>
                                 </stackView>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera.shutter.button" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="tdH-Tm-NcK">
+                                    <rect key="frame" x="148.66666666666666" y="139.33333333333331" width="96" height="96.666666666666686"/>
+                                    <color key="backgroundColor" name="ColorDarkGray"/>
+                                    <color key="tintColor" name="ColorGrayBlue"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="96" id="H0t-KJ-CyE"/>
+                                        <constraint firstAttribute="width" constant="96" id="hrh-hF-y3q"/>
+                                    </constraints>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E7C-cr-a3h">
+                                    <rect key="frame" x="220.66666666666666" y="213.33333333333331" width="24" height="24"/>
+                                    <color key="backgroundColor" name="ColorRedGray"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="24" id="23D-hG-pzl"/>
+                                        <constraint firstAttribute="height" constant="24" id="PHv-Dj-050"/>
+                                    </constraints>
+                                    <color key="tintColor" name="ColorWhite"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8aj-Eg-Pl4">
+                                    <rect key="frame" x="106.33333333333333" y="241.33333333333334" width="180.66666666666669" height="38.333333333333343"/>
+                                    <color key="tintColor" name="ColorGrayBlue"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" title="Upload Profile Photo"/>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -293,6 +322,7 @@ start sharing.</string>
                                 <constraint firstItem="5Wl-vd-dyU" firstAttribute="top" secondItem="yDq-ko-nl4" secondAttribute="bottom" constant="8" id="1RA-QV-v3m"/>
                                 <constraint firstAttribute="trailing" secondItem="XvH-h9-34J" secondAttribute="trailing" constant="20" id="2vb-SN-8TW"/>
                                 <constraint firstItem="93M-gz-x1l" firstAttribute="top" secondItem="5Wl-vd-dyU" secondAttribute="bottom" constant="16" id="5Gc-Hg-mtG"/>
+                                <constraint firstItem="tdH-Tm-NcK" firstAttribute="top" secondItem="W77-R2-xvY" secondAttribute="bottom" constant="48" id="6KH-Wb-Lyg"/>
                                 <constraint firstItem="93M-gz-x1l" firstAttribute="leading" secondItem="4dN-de-i1p" secondAttribute="leading" constant="20" id="7PA-5v-tOG"/>
                                 <constraint firstItem="uEf-TT-jg9" firstAttribute="leading" secondItem="4dN-de-i1p" secondAttribute="leading" constant="20" id="7eQ-QZ-Pgs"/>
                                 <constraint firstItem="W4P-HT-lZh" firstAttribute="top" secondItem="93M-gz-x1l" secondAttribute="bottom" constant="8" id="7rM-9s-NJV"/>
@@ -317,21 +347,26 @@ start sharing.</string>
                                 <constraint firstItem="C1V-Ne-f7A" firstAttribute="leading" secondItem="4dN-de-i1p" secondAttribute="leading" constant="20" id="WUt-tA-XV2"/>
                                 <constraint firstAttribute="trailing" secondItem="kGc-Zt-rMb" secondAttribute="trailing" constant="20" id="Wsy-pF-FJH"/>
                                 <constraint firstAttribute="trailing" secondItem="7Ng-ud-Xgl" secondAttribute="trailing" constant="20" id="X8x-95-0Cb"/>
+                                <constraint firstItem="uEf-TT-jg9" firstAttribute="top" secondItem="8aj-Eg-Pl4" secondAttribute="bottom" constant="24" id="XXp-6I-kwb"/>
                                 <constraint firstItem="p47-ud-JvG" firstAttribute="top" secondItem="W4P-HT-lZh" secondAttribute="bottom" constant="16" id="Xe7-J4-cd9"/>
                                 <constraint firstItem="p47-ud-JvG" firstAttribute="leading" secondItem="4dN-de-i1p" secondAttribute="leading" constant="20" id="ZCB-fc-4El"/>
                                 <constraint firstItem="XvH-h9-34J" firstAttribute="top" secondItem="7Ng-ud-Xgl" secondAttribute="bottom" constant="32" id="aeR-Pi-9dK"/>
+                                <constraint firstItem="E7C-cr-a3h" firstAttribute="trailing" secondItem="tdH-Tm-NcK" secondAttribute="trailing" id="c4M-ud-YZm"/>
                                 <constraint firstItem="kGc-Zt-rMb" firstAttribute="top" secondItem="XvH-h9-34J" secondAttribute="bottom" constant="32" id="cJc-1a-fLn"/>
                                 <constraint firstItem="kGc-Zt-rMb" firstAttribute="top" secondItem="XvH-h9-34J" secondAttribute="bottom" constant="32" id="d7d-cb-3Bk"/>
                                 <constraint firstItem="0Qw-iL-S1g" firstAttribute="top" secondItem="ZCV-gq-5lg" secondAttribute="bottom" constant="8" id="ds3-pB-R5i"/>
-                                <constraint firstItem="uEf-TT-jg9" firstAttribute="top" secondItem="W77-R2-xvY" secondAttribute="bottom" constant="32" id="dxH-w1-fBy"/>
+                                <constraint firstItem="E7C-cr-a3h" firstAttribute="bottom" secondItem="tdH-Tm-NcK" secondAttribute="bottom" id="e2b-NY-RyN"/>
                                 <constraint firstItem="ZCV-gq-5lg" firstAttribute="top" secondItem="49a-ta-viF" secondAttribute="bottom" constant="16" id="es0-ih-m7V"/>
                                 <constraint firstItem="ZCV-gq-5lg" firstAttribute="leading" secondItem="4dN-de-i1p" secondAttribute="leading" constant="20" id="gQ9-9g-dcP"/>
                                 <constraint firstItem="7Ng-ud-Xgl" firstAttribute="leading" secondItem="4dN-de-i1p" secondAttribute="leading" constant="20" id="gXO-wa-Khp"/>
                                 <constraint firstItem="SfA-0u-I7r" firstAttribute="leading" secondItem="4dN-de-i1p" secondAttribute="leading" constant="20" id="iEy-Af-Lnw"/>
                                 <constraint firstItem="7Ng-ud-Xgl" firstAttribute="top" secondItem="p47-ud-JvG" secondAttribute="bottom" constant="40" id="lli-eY-zKF"/>
+                                <constraint firstItem="tdH-Tm-NcK" firstAttribute="centerX" secondItem="4dN-de-i1p" secondAttribute="centerX" id="lo6-7g-H8m"/>
+                                <constraint firstItem="8aj-Eg-Pl4" firstAttribute="top" secondItem="tdH-Tm-NcK" secondAttribute="bottom" constant="4" id="nPB-Uu-KtG"/>
                                 <constraint firstItem="C1V-Ne-f7A" firstAttribute="top" secondItem="kGc-Zt-rMb" secondAttribute="bottom" constant="40" id="qo3-nC-HvK"/>
                                 <constraint firstAttribute="trailing" secondItem="C1V-Ne-f7A" secondAttribute="trailing" constant="20" id="qvb-va-1Pv"/>
                                 <constraint firstAttribute="trailing" secondItem="5Wl-vd-dyU" secondAttribute="trailing" constant="20" id="rHD-29-vr7"/>
+                                <constraint firstItem="8aj-Eg-Pl4" firstAttribute="centerX" secondItem="4dN-de-i1p" secondAttribute="centerX" id="tSe-rl-bBI"/>
                                 <constraint firstItem="W4P-HT-lZh" firstAttribute="leading" secondItem="4dN-de-i1p" secondAttribute="leading" constant="20" id="vIL-bV-EP0"/>
                                 <constraint firstAttribute="trailing" secondItem="49a-ta-viF" secondAttribute="trailing" constant="20" id="wZt-gq-G5v"/>
                                 <constraint firstItem="0Qw-iL-S1g" firstAttribute="top" secondItem="ZCV-gq-5lg" secondAttribute="bottom" constant="8" id="xez-3k-lix"/>
@@ -365,6 +400,8 @@ start sharing.</string>
     <resources>
         <image name="Google" width="24" height="24"/>
         <image name="apple.logo" catalog="system" width="105" height="128"/>
+        <image name="camera.shutter.button" catalog="system" width="128" height="108"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <image name="square" catalog="system" width="128" height="114"/>
         <namedColor name="ColorDarkGray">
             <color red="0.11800000071525574" green="0.11800000071525574" blue="0.11800000071525574" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

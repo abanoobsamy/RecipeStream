@@ -14,18 +14,40 @@ struct UserDefault<T: Codable> {
 
     var wrappedValue: T {
         get {
-            // بنحاول نقرأ الداتا من اللوكال
-            guard let data = UserDefaults.standard.object(forKey: key) as? Data else {
+            // 1. بنجيب الداتا
+            guard let data = UserDefaults.standard.data(forKey: key) else {
                 return defaultValue
             }
-            // بنفك التشفير ونرجع الموديل بتاعنا
-            let value = try? JSONDecoder().decode(T.self, from: data)
-            return value ?? defaultValue
+            
+            // 2. بنحاول نفك التشفير
+            // استخدمنا JSONDecoder بشكل صريح
+            let decoder = JSONDecoder()
+            if let value = try? decoder.decode(T.self, from: data) {
+                return value
+            }
+            
+            return defaultValue
         }
         set {
-            // بنشفر الموديل ونحفظه
-            let data = try? JSONEncoder().encode(newValue)
-            UserDefaults.standard.set(data, forKey: key)
+            // 3. لو القيمة اللي جاية nil، بنمسح المفتاح خالص من الـ UserDefaults
+            // ده مهم جداً عشان الـ Sign out يشتغل صح
+            if let optional = newValue as? AnyOptional, optional.isNil {
+                UserDefaults.standard.removeObject(forKey: key)
+            } else {
+                let encoder = JSONEncoder()
+                if let data = try? encoder.encode(newValue) {
+                    UserDefaults.standard.set(data, forKey: key)
+                }
+            }
         }
     }
+}
+
+// 🌟 حركة صياعة عشان الـ Wrapper يفهم الـ nil 🌟
+protocol AnyOptional {
+    var isNil: Bool { get }
+}
+
+extension Optional: AnyOptional {
+    var isNil: Bool { self == nil }
 }

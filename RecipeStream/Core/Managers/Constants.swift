@@ -34,4 +34,8 @@ enum Constants {
     enum Images {
         static let defaultPlaceholder = "placeholder_image"
     }
+    
+    enum Keys {
+        static let apiKeyImageBB = "f46e8c7bce464b31413dd1f31897e44f"
+    }
 }

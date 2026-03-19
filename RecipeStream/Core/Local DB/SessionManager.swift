@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 struct SessionManager {
     
@@ -17,18 +18,25 @@ struct SessionManager {
     @UserDefault(key: "has_seen_onboarding", defaultValue: false)
     static var hasSeenOnboarding: Bool
     
-    @UserDefault(key: "uid", defaultValue: 0)
-    static var uid: Int
+    @UserDefault(key: "uid", defaultValue: "")
+    static var uid: String
     
     static var isLoggedIn: Bool {
         return currentUser != nil
     }
     
-    // 3. دالة سريعة تمسح الداتا لما اليوزر يعمل Log Out
+    // Log Out
     static func clearSession() {
-        currentUser = nil
-        uid = 0
-        hasSeenOnboarding = false
-        // بنسيب الـ onboarding زي ما هي عشان ميشوفهاش تاني
+        do {
+            try Auth.auth().signOut()
+            // Clear cached session state only after successful sign out
+            currentUser = nil
+            uid = ""
+            // If you want to force showing onboarding again, set to false; otherwise, keep the stored value.
+            // hasSeenOnboarding = false
+        } catch {
+            // Handle sign out error (e.g., show an alert, log, etc.)
+            print("Failed to sign out: \(error)")
+        }
     }
 }
