@@ -145,6 +145,22 @@ class MealDetailsVC: UIViewController {
                 cell.configure(with: instruction, number: row + 1)
             }
             .disposed(by: disposeBag)
+        
+        ingredientsCollectionView.rx.observe(CGSize.self, "contentSize")
+            .compactMap { $0?.height }
+            .distinctUntilChanged() // To avoid frequent updates of the same value
+            .bind { [weak self] height in
+                self?.heightIngredientLayout.constant = height + 10
+            }
+            .disposed(by: disposeBag)
+
+        instructionsCollectionView.rx.observe(CGSize.self, "contentSize")
+            .compactMap { $0?.height }
+            .distinctUntilChanged() // To avoid frequent updates of the same value
+            .bind { [weak self] height in
+                self?.heightInsturctionLayout.constant = height + 10
+            }
+            .disposed(by: disposeBag)
     }
     
     private func loadImage(imageUrl: URL) {
@@ -160,7 +176,7 @@ class MealDetailsVC: UIViewController {
     
     private func setupRightBarButtons() {
         shareButton.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
-        shareButton.tintColor = .white
+        shareButton.tintColor = .black
         shareButton.backgroundColor = UIColor.systemGray6
         shareButton.layer.cornerRadius = 17.5 // if size is 35x35
         shareButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
@@ -170,7 +186,7 @@ class MealDetailsVC: UIViewController {
         let imageName = isFavorite ? "heart.fill" : "heart"
 
         favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
-        favoriteButton.tintColor = .white
+        favoriteButton.tintColor = .black
         favoriteButton.backgroundColor = UIColor.systemGray6
         favoriteButton.layer.cornerRadius = 17.5 // if size is 35x35
         favoriteButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
@@ -193,7 +209,7 @@ class MealDetailsVC: UIViewController {
         isFavorite.toggle()
             
         let imageName = isFavorite ? "heart.fill" : "heart"
-        let color: UIColor = isFavorite ? .red : .white
+        let color: UIColor = isFavorite ? .red : .black
         
         favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
         favoriteButton.tintColor = color

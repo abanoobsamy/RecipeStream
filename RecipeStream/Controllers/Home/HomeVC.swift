@@ -58,11 +58,6 @@ class HomeVC: UIViewController {
         super.viewDidLayoutSubviews()
         
         imageIv.layer.cornerRadius = imageIv.frame.width / 2
-        
-        let contentHeight = recommendedCollectionView.collectionViewLayout.collectionViewContentSize.height
-        if contentHeight > 0 {
-            recommendedCVHeightConstraint.constant = contentHeight
-        }
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -202,6 +197,14 @@ class HomeVC: UIViewController {
                     self?.recommendedCollectionView.deselectItem(at: selectedIndexPath, animated: true)
                 }
             })
+            .disposed(by: disposeBag)
+        
+        recommendedCollectionView.rx.observe(CGSize.self, "contentSize")
+            .compactMap { $0?.height }
+            .distinctUntilChanged() // To avoid frequent updates of the same value
+            .bind { [weak self] height in
+                self?.recommendedCVHeightConstraint.constant = height + 10
+            }
             .disposed(by: disposeBag)
     }
     

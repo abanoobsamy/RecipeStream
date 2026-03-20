@@ -175,7 +175,7 @@ Tomato Sauce</string>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.57999998331069946" green="0.63899999856948853" blue="0.72200000286102295" alpha="0.20273987676056338" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" red="0.57999998331069946" green="0.63899999856948853" blue="0.72200000286102295" alpha="0.10222271126760564" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstItem="yKQ-2b-Up3" firstAttribute="height" secondItem="RZA-N7-rde" secondAttribute="height" multiplier="0.5" id="N9U-fG-1gb"/>
                                                 <constraint firstItem="kc3-jd-TtC" firstAttribute="width" secondItem="PSB-1t-Fqq" secondAttribute="width" id="ORU-1H-wzx"/>
