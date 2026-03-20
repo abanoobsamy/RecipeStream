@@ -137,7 +137,11 @@ class HomeVC: UIViewController {
         
         viewModel.sliderItems
             .bind(to: sliderCollectionView.rx.items(cellIdentifier: SliderHomeViewCell.identifier, cellType: SliderHomeViewCell.self)) { (row, recipe, cell) in
-                 cell.configure(with: recipe)
+                cell.configure(with: recipe)
+                
+                cell.onNavigateButtonTapped = { [weak self] in
+                    self?.navigateToMealDetails(recipe: recipe)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -184,6 +188,28 @@ class HomeVC: UIViewController {
                 self?.showPuddingLoader(show: loading)
             })
             .disposed(by: disposeBag)
+        
+        recommendedCollectionView.rx.itemSelected
+            .withLatestFrom(viewModel.recommendedItems) { indexPath, items in
+                return items[indexPath.item]
+            }
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] selectedRecipe in
+                self?.navigateToMealDetails(recipe: selectedRecipe)
+                
+                // (Optional) Enable optical cell selection if needed
+                if let selectedIndexPath = self?.recommendedCollectionView.indexPathsForSelectedItems?.first {
+                    self?.recommendedCollectionView.deselectItem(at: selectedIndexPath, animated: true)
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func navigateToMealDetails(recipe: Recipe) {
+        let detailsViewModel = DetailsViewModel(recipe: recipe)
+        let vc = MealDetailsVC(viewModel: detailsViewModel)
+        vc!.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc!, animated: true)
     }
     
     @objc func notificationTapped(_ sender: UITapGestureRecognizer) {
@@ -200,3 +226,4 @@ class HomeVC: UIViewController {
         }
     }
 }
+

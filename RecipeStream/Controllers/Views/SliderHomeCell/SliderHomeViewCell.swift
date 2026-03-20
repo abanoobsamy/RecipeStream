@@ -7,6 +7,8 @@
 
 import UIKit
 import Kingfisher
+import RxSwift
+import RxCocoa
 
 class SliderHomeViewCell: UICollectionViewCell {
     
@@ -17,6 +19,10 @@ class SliderHomeViewCell: UICollectionViewCell {
     @IBOutlet weak var timeLbl: UILabel!
     @IBOutlet weak var kcalLbl: UILabel!
     @IBOutlet weak var btnCook: UIButton!
+    
+    private var cellDisposeBag = DisposeBag()
+    
+    var onNavigateButtonTapped: (() -> Void)?
     
     let gradientLayer = CAGradientLayer()
     
@@ -32,9 +38,22 @@ class SliderHomeViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        
         setupGradient()
+        setupBinding()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cellDisposeBag = DisposeBag()
+        setupBinding()
+    }
+    
+    private func setupBinding() {
+        btnCook.rx.tap
+            .bind { [weak self] in
+                self?.onNavigateButtonTapped?()
+            }
+            .disposed(by: cellDisposeBag)
     }
     
     func setupGradient() {
@@ -63,10 +82,10 @@ class SliderHomeViewCell: UICollectionViewCell {
         timeLbl.text = "\(model.cookTimeMinutes ?? 0) min"
         badgeLbl.text = model.cuisine ?? ""
         
-        loadCircularProfileImage(imageUrl: model.image ?? "")
+        loadImage(imageUrl: model.image ?? "")
     }
     
-    private func loadCircularProfileImage(imageUrl: String) {
+    private func loadImage(imageUrl: String) {
         let url = URL(string: imageUrl)
         
         imageIv.layer.masksToBounds = true
@@ -81,8 +100,4 @@ class SliderHomeViewCell: UICollectionViewCell {
             ]
         )
     }
-    
-    @IBAction func btnCook(_ sender: Any) {
-    }
-    
 }

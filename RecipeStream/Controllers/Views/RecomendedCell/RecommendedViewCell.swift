@@ -42,10 +42,10 @@ class RecommendedViewCell: UICollectionViewCell {
         titleLbl.text = model.name ?? ""
         descLbl.text = "\(model.difficulty ?? "") \(model.cuisine ?? "") \(model.caloriesPerServing ?? 0) kcal \(model.cookTimeMinutes ?? 0) min"
         
-        loadCircularProfileImage(imageUrl: model.image ?? "")
+        loadImage(imageUrl: model.image ?? "")
     }
     
-    private func loadCircularProfileImage(imageUrl: String) {
+    private func loadImage(imageUrl: String) {
         let url = URL(string: imageUrl)
         
         imageIv.layer.masksToBounds = true
