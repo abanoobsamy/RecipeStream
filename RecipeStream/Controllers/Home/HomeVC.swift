@@ -65,6 +65,40 @@ class HomeVC: UIViewController {
         }
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        // Recalculating measurements seamlessly in sync with rotation
+        coordinator.animate(alongsideTransition: { [weak self] _ in
+            self?.sliderCollectionView.collectionViewLayout.invalidateLayout()
+            self?.recommendedCollectionView.collectionViewLayout.invalidateLayout()
+            self?.categoryCollectionView.collectionViewLayout.invalidateLayout()
+            
+            // Dynamically updating the height of the suggestions section instantly
+            self?.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    // MARK: - Safe Area Handling
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        
+        sliderCollectionView.contentInset = UIEdgeInsets(
+            top: 0,
+            left: view.safeAreaInsets.left,
+            bottom: 0,
+            right: view.safeAreaInsets.right
+        )
+        
+        let tabBarAvoidancePadding: CGFloat = 100
+        recommendedCollectionView.contentInset = UIEdgeInsets(
+            top: 0,
+            left: 0,
+            bottom: tabBarAvoidancePadding,
+            right: 0
+        )
+    }
+    
     // MARK: - Setup Views
     func setupViews() {
         let user = SessionManager.currentUser
@@ -141,6 +175,13 @@ class HomeVC: UIViewController {
             .delay(.milliseconds(100), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
                 self?.view.layoutIfNeeded()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isLoading
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] loading in
+                self?.showPuddingLoader(show: loading)
             })
             .disposed(by: disposeBag)
     }

@@ -29,16 +29,14 @@ class HomeViewModel {
     
     init() {
         setupCategories()
-        fetchSliderRecipes(limit: 5)
-        fetchRecipes(limit: 10)
+        fetchAllData()
         bindInputs()
     }
     
     private func bindInputs() {
         pullToRefresh
             .subscribe(onNext: { [weak self] in
-                self?.fetchSliderRecipes(limit: 5)
-                self?.fetchRecipes(limit: 10)
+                self?.fetchAllData()
             })
             .disposed(by: disposeBag)
     }
@@ -49,52 +47,41 @@ class HomeViewModel {
     }
     
     // MARK: - API Calls
-    func fetchSliderRecipes(limit: Int) {
+    func fetchAllData() {
         isLoading.accept(true)
         
-        let params: [String: Any] = ["limit": limit]
-        NetworkManager.shared.request(RecipeRouter.getAllRecipes(parameters: params))
-            .subscribe(onSuccess: { [weak self] (response: RecipeResponse) in
+        let sliderRequest: RxSwift.Observable<RecipeResponse> = NetworkManager.shared.request(RecipeRouter.getAllRecipes(parameters: ["limit": 5]))
+            .asObservable()
+        
+        let recommendedRequest: RxSwift.Observable<RecipeResponse> = NetworkManager.shared.request(RecipeRouter.getAllRecipes(parameters: ["limit": 10]))
+            .asObservable()
+        
+        let minDelay = RxSwift.Observable<Int>.timer(.seconds(3), scheduler: MainScheduler.instance)
+        
+        RxSwift.Observable.zip(sliderRequest, recommendedRequest, minDelay)
+            .subscribe(onNext: { [weak self] (sliderResponse, recommendedResponse, _ ) in
                 guard let self = self else { return }
                 
-                isLoading.accept(false)
-                
-                if let newRecipes = response.recipes {
-                    sliderItems.accept(newRecipes)
-                    startSliderTimer()
+                if let sliderRecipes = sliderResponse.recipes {
+                    self.sliderItems.accept(sliderRecipes)
+                    self.startSliderTimer()
                 }
                 
-            }, onFailure: { [weak self] error in
-                guard let self = self else { return }
-                isLoading.accept(false)
-                errorMessage.accept(error.localizedDescription)
+                if let recommendedRecipes = recommendedResponse.recipes {
+                    self.recommendedItems.accept(recommendedRecipes)
+                }
+                
+            }, onError: { [weak self] error in
+                self?.isLoading.accept(false)
+                self?.errorMessage.accept(error.localizedDescription)
+                
+            }, onCompleted: { [weak self] in
+                // zip show after 3 sec from getting data
+                self?.isLoading.accept(false)
             })
             .disposed(by: disposeBag)
     }
-    
-    // MARK: - API Calls
-    func fetchRecipes(limit: Int) {
-        isLoading.accept(true)
         
-        let params: [String: Any] = ["limit": limit]
-        NetworkManager.shared.request(RecipeRouter.getAllRecipes(parameters: params))
-            .subscribe(onSuccess: { [weak self] (response: RecipeResponse) in
-                guard let self = self else { return }
-                
-                isLoading.accept(false)
-                
-                if let newRecipes = response.recipes {
-                    recommendedItems.accept(newRecipes)
-                }
-                
-            }, onFailure: { [weak self] error in
-                guard let self = self else { return }
-                isLoading.accept(false)
-                errorMessage.accept(error.localizedDescription)
-            })
-            .disposed(by: disposeBag)
-    }
-    
     private func startSliderTimer() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in

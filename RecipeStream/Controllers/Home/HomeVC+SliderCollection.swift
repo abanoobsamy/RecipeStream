@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Lottie
 
 extension HomeVC {
     
@@ -16,14 +17,79 @@ extension HomeVC {
         categoryCollectionView.register(CategoryViewCell.register(), forCellWithReuseIdentifier: CategoryViewCell.identifier)
         recommendedCollectionView.register(RecommendedViewCell.register(), forCellWithReuseIdentifier: RecommendedViewCell.identifier)
         
-        sliderCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        categoryCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        recommendedCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
+//        sliderCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
+//        categoryCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
+//        recommendedCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        let collections = [sliderCollectionView, categoryCollectionView, recommendedCollectionView]
+        
+        collections.forEach {
+            $0?.rx.setDelegate(self).disposed(by: disposeBag)
+            $0?.backgroundColor = .clear
+            $0?.showsHorizontalScrollIndicator = false
+            $0?.showsVerticalScrollIndicator = false
+        }
         
         sliderCollectionView.contentInsetAdjustmentBehavior = .never
-        sliderCollectionView.backgroundColor = .clear
-        categoryCollectionView.backgroundColor = .clear
-        recommendedCollectionView.backgroundColor = .clear
+    }
+    
+    func showPuddingLoader(show: Bool, width: CGFloat = 150, height: CGFloat = 150) {
+        let loaderTag = 999
+        let blurTag = 888
+        
+        if show {
+            let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+            blurView.tag = blurTag
+            blurView.translatesAutoresizingMaskIntoConstraints = false
+//            view.addSubview(blurView)
+            // to show above Tab Bar
+            let superviewForBlur: UIView
+            if let windowScene = view.window?.windowScene ?? UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first(where: { $0.isKeyWindow }) ?? windowScene.windows.first {
+                window.addSubview(blurView)
+                superviewForBlur = window
+            } else {
+                view.addSubview(blurView)
+                superviewForBlur = view
+            }
+            
+            NSLayoutConstraint.activate([
+                blurView.topAnchor.constraint(equalTo: superviewForBlur.topAnchor),
+                blurView.leadingAnchor.constraint(equalTo: superviewForBlur.leadingAnchor),
+                blurView.trailingAnchor.constraint(equalTo: superviewForBlur.trailingAnchor),
+                blurView.bottomAnchor.constraint(equalTo: superviewForBlur.bottomAnchor)
+            ])
+            
+            let animationView = LottieAnimationView(name: "burrito")
+            animationView.tag = loaderTag
+            animationView.contentMode = .scaleAspectFit
+            animationView.loopMode = .loop
+            animationView.translatesAutoresizingMaskIntoConstraints = false
+            
+            superviewForBlur.addSubview(animationView)
+            
+            NSLayoutConstraint.activate([
+                animationView.widthAnchor.constraint(equalToConstant: width),
+                animationView.heightAnchor.constraint(equalToConstant: height),
+                animationView.centerXAnchor.constraint(equalTo: superviewForBlur.centerXAnchor),
+                animationView.centerYAnchor.constraint(equalTo: superviewForBlur.centerYAnchor)
+            ])
+            
+            animationView.play()
+        } else {
+            if let windowScene = view.window?.windowScene ?? UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                let windows = windowScene.windows
+                if let loaderView = (windows.compactMap { $0.viewWithTag(loaderTag) }.first ?? view.viewWithTag(loaderTag)) {
+                    loaderView.removeFromSuperview()
+                }
+                if let blurView = (windows.compactMap { $0.viewWithTag(blurTag) }.first ?? view.viewWithTag(blurTag)) {
+                    blurView.removeFromSuperview()
+                }
+            } else {
+                view.viewWithTag(loaderTag)?.removeFromSuperview()
+                view.viewWithTag(blurTag)?.removeFromSuperview()
+            }
+        }
     }
 }
 
@@ -45,7 +111,7 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
             let textWidth = categoryName.size(withAttributes: [.font: font]).width
             
             // 3. الحسبة الدقيقة:
-            // عرض الكلمة + عرض الأيقونة (20) + المسافة بينهم (8) + مسافة الشمال (16) + مسافة اليمين (16)
+            // عرض الكلمة + عرض الأيقونا (20) + المسافة بينهم (8) + مسافة الشمال (16) + مسافة اليمين (16)
             // يعني الإجمالي: textWidth + 60
             let totalWidth = textWidth + 64
             
@@ -102,3 +168,4 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
         }
     }
 }
+
