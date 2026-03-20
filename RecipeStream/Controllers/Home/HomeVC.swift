@@ -194,4 +194,9 @@ class HomeVC: UIViewController {
         print("See All Tapped")
     }
     
+    deinit {
+        DispatchQueue.main.async { [weak self] in
+            self?.showPuddingLoader(show: false)
+        }
+    }
 }
