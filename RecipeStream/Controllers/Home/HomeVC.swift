@@ -54,6 +54,14 @@ class HomeVC: UIViewController {
         greetingLbl.text = "\(greetings)"
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // Always guarantee the perfect round shape
+        imageIv.layer.cornerRadius = imageIv.frame.width / 2
+        imageIv.layer.masksToBounds = true
+    }
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
@@ -106,15 +114,12 @@ class HomeVC: UIViewController {
             return
         }
         
-        let circularProcessor = RoundCornerImageProcessor(cornerRadius: imageIv.frame.width / 2, backgroundColor: .clear)
-        imageIv.layer.masksToBounds = true
         imageIv.contentMode = .scaleAspectFill
         
         imageIv.kf.setImage(
             with: url,
             placeholder: UIImage(named: "profile"),
             options: [
-                .processor(circularProcessor),
                 .transition(.fade(0.2)),
                 .cacheOriginalImage
             ]
@@ -210,10 +215,9 @@ class HomeVC: UIViewController {
         print("See All Tapped")
     }
     
-    deinit {
-        DispatchQueue.main.async { [weak self] in
-            self?.showPuddingLoader(show: false)
-        }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        showPuddingLoader(show: false)
     }
 }
 
