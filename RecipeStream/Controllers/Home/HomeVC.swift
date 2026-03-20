@@ -54,12 +54,6 @@ class HomeVC: UIViewController {
         greetingLbl.text = "\(greetings)"
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        imageIv.layer.cornerRadius = imageIv.frame.width / 2
-    }
-    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
@@ -169,19 +163,12 @@ class HomeVC: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        // 4. Update the Recommended height after data loading
-        viewModel.recommendedItems
-            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] _ in
-                self?.view.layoutIfNeeded()
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.isLoading
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] loading in
-                self?.showPuddingLoader(show: loading)
-            })
+        recommendedCollectionView.rx.observe(CGSize.self, "contentSize")
+            .compactMap { $0?.height }
+            .distinctUntilChanged() // To avoid frequent updates of the same value
+            .bind { [weak self] height in
+                self?.recommendedCVHeightConstraint.constant = height + 10
+            }
             .disposed(by: disposeBag)
         
         recommendedCollectionView.rx.itemSelected
@@ -199,20 +186,20 @@ class HomeVC: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        recommendedCollectionView.rx.observe(CGSize.self, "contentSize")
-            .compactMap { $0?.height }
-            .distinctUntilChanged() // To avoid frequent updates of the same value
-            .bind { [weak self] height in
-                self?.recommendedCVHeightConstraint.constant = height + 10
-            }
+        viewModel.isLoading
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] loading in
+                self?.showPuddingLoader(show: loading)
+            })
             .disposed(by: disposeBag)
     }
     
     func navigateToMealDetails(recipe: Recipe) {
         let detailsViewModel = DetailsViewModel(recipe: recipe)
-        let vc = MealDetailsVC(viewModel: detailsViewModel)
-        vc!.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(vc!, animated: true)
+        guard let vc = MealDetailsVC(viewModel: detailsViewModel) else { return }
+        
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func notificationTapped(_ sender: UITapGestureRecognizer) {
