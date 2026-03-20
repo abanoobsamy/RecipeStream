@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SliderHomeViewCell: UICollectionViewCell {
     
@@ -33,7 +34,6 @@ class SliderHomeViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        imageIv.image = UIImage(named: "img_1")
         setupGradient()
     }
     
@@ -55,6 +55,31 @@ class SliderHomeViewCell: UICollectionViewCell {
         gradientLayer.frame = imageIv.bounds
         badgeView.round(12)
         imageIv.round(20)
+    }
+    
+    func configure(with model: Recipe) {
+        titleLbl.text = model.name ?? ""
+        kcalLbl.text = "\(model.caloriesPerServing ?? 0) kcal"
+        timeLbl.text = "\(model.cookTimeMinutes ?? 0) min"
+        badgeLbl.text = model.cuisine ?? ""
+        
+        loadCircularProfileImage(imageUrl: model.image ?? "")
+    }
+    
+    private func loadCircularProfileImage(imageUrl: String) {
+        let url = URL(string: imageUrl)
+        
+        imageIv.layer.masksToBounds = true
+        imageIv.contentMode = .scaleAspectFill
+        
+        imageIv.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "profile"),
+            options: [
+                .transition(.fade(0.2)),
+                .cacheOriginalImage
+            ]
+        )
     }
     
     @IBAction func btnCook(_ sender: Any) {

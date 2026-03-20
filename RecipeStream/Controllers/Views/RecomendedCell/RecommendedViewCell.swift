@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class RecommendedViewCell: UICollectionViewCell {
 
@@ -28,7 +29,6 @@ class RecommendedViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        imageIv.image = UIImage(named: "img_1")
     }
     
     override func layoutSubviews() {
@@ -38,4 +38,26 @@ class RecommendedViewCell: UICollectionViewCell {
         containerView.round(20)
     }
 
+    func configure(with model: Recipe) {
+        titleLbl.text = model.name ?? ""
+        descLbl.text = "\(model.difficulty ?? "") \(model.cuisine ?? "") \(model.caloriesPerServing ?? 0) kcal \(model.cookTimeMinutes ?? 0) min"
+        
+        loadCircularProfileImage(imageUrl: model.image ?? "")
+    }
+    
+    private func loadCircularProfileImage(imageUrl: String) {
+        let url = URL(string: imageUrl)
+        
+        imageIv.layer.masksToBounds = true
+        imageIv.contentMode = .scaleAspectFill
+        
+        imageIv.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "profile"),
+            options: [
+                .transition(.fade(0.2)),
+                .cacheOriginalImage
+            ]
+        )
+    }
 }

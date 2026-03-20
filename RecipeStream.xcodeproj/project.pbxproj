@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B4D2EBB2F6D905F00DACC3F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 6B4D2EBA2F6D905F00DACC3F /* Alamofire */; };
 		6B7144A02F6B062D00464D2F /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 6B71449F2F6B062D00464D2F /* RxCocoa */; };
 		6B7144A22F6B062D00464D2F /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6B7144A12F6B062D00464D2F /* RxSwift */; };
 		6BD360EF2F69C9B5006EC1BA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6BD360EE2F69C9B5006EC1BA /* FirebaseAuth */; };
@@ -76,6 +77,7 @@
 				6BD360F42F69CA32006EC1BA /* Kingfisher in Frameworks */,
 				6BD360EF2F69C9B5006EC1BA /* FirebaseAuth in Frameworks */,
 				6B7144A22F6B062D00464D2F /* RxSwift in Frameworks */,
+				6B4D2EBB2F6D905F00DACC3F /* Alamofire in Frameworks */,
 				6B7144A02F6B062D00464D2F /* RxCocoa in Frameworks */,
 				6BD360F12F69C9C1006EC1BA /* FirebaseFirestore in Frameworks */,
 			);
@@ -151,6 +153,7 @@
 				6BD360F32F69CA32006EC1BA /* Kingfisher */,
 				6B71449F2F6B062D00464D2F /* RxCocoa */,
 				6B7144A12F6B062D00464D2F /* RxSwift */,
+				6B4D2EBA2F6D905F00DACC3F /* Alamofire */,
 			);
 			productName = RecipeStream;
 			productReference = 6BFC6D2B2F673632005CC16B /* RecipeStream.app */;
@@ -238,6 +241,7 @@
 				6BD360EC2F69C988006EC1BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				6BD360F22F69CA1F006EC1BA /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				6B71449E2F6B061400464D2F /* XCRemoteSwiftPackageReference "RxSwift" */,
+				6B4D2EB92F6D904300DACC3F /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6BFC6D2C2F673632005CC16B /* Products */;
@@ -622,6 +626,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6B4D2EB92F6D904300DACC3F /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.11.1;
+			};
+		};
 		6B71449E2F6B061400464D2F /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -649,6 +661,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6B4D2EBA2F6D905F00DACC3F /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B4D2EB92F6D904300DACC3F /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		6B71449F2F6B062D00464D2F /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6B71449E2F6B061400464D2F /* XCRemoteSwiftPackageReference "RxSwift" */;

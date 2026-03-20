@@ -7,6 +7,8 @@
 
 import UIKit
 import Kingfisher
+import RxSwift
+import RxCocoa
 
 class HomeVC: UIViewController {
 
@@ -22,28 +24,23 @@ class HomeVC: UIViewController {
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var greetingsLbl: UILabel!
     
-    // variables
-    var timer: Timer?
-    var currentCellIndex: Int = 0
-    
-    var arrCategories: [String] = ["All", "Bob", "Abanoob", "Fixes Bob Bob Bob Bob "]
-    
+    let viewModel = HomeViewModel()
+    let disposeBag = DisposeBag()
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        
-        navigationController?.isNavigationBarHidden = true
-    
         notificationIv.makeCircularIcon(bgColor: .systemGray6)
         
-        setupCollectionView()
-        setupPager()
+        setupCollectionViews()
         setupViews()
+        bindViewModel()
         
-        // بيعمل Select لأول عنصر (All) تلقائياً
-        let firstIndexPath = IndexPath(item: 0, section: 0)
-        categoryCollectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: .right)
+        // Select for (All)
+        DispatchQueue.main.async { [weak self] in
+            let firstIndexPath = IndexPath(item: 0, section: 0)
+            self?.categoryCollectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: .right)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -57,29 +54,36 @@ class HomeVC: UIViewController {
         greetingLbl.text = "\(greetings)"
     }
     
-    func setupViews() {
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
+        imageIv.layer.cornerRadius = imageIv.frame.width / 2
+        
+        let contentHeight = recommendedCollectionView.collectionViewLayout.collectionViewContentSize.height
+        if contentHeight > 0 {
+            recommendedCVHeightConstraint.constant = contentHeight
+        }
+    }
+    
+    // MARK: - Setup Views
+    func setupViews() {
         let user = SessionManager.currentUser
         titleLbl.text = user?.name ?? "No User Name"
         loadCircularProfileImage()
         
         notificationIv.isUserInteractionEnabled = true
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(logoutTapped(_:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(notificationTapped(_:)))
         notificationIv.addGestureRecognizer(tap)
     }
     
     private func loadCircularProfileImage() {
-        // 1. نجيب الرابط من الـ SessionManager
         guard let imageUrlString = SessionManager.currentUser?.profileImageUrl,
               let url = URL(string: imageUrlString) else {
-            // لو ملوش صورة، حط صورة افتراضية
             imageIv.image = UIImage(named: "profile")
             return
         }
         
         let circularProcessor = RoundCornerImageProcessor(cornerRadius: imageIv.frame.width / 2, backgroundColor: .clear)
-        
         imageIv.layer.masksToBounds = true
         imageIv.contentMode = .scaleAspectFill
         
@@ -94,34 +98,59 @@ class HomeVC: UIViewController {
         )
     }
     
-    @objc func logoutTapped(_ sender: UITapGestureRecognizer) {
-        SessionManager.clearSession()
+    // MARK: - ViewModel Binding (RxSwift السحر)
+    private func bindViewModel() {
         
-        let vc = LoginVC()
-        let navVC = UINavigationController(rootViewController: vc)
+        viewModel.sliderItems
+            .bind(to: sliderCollectionView.rx.items(cellIdentifier: SliderHomeViewCell.identifier, cellType: SliderHomeViewCell.self)) { (row, recipe, cell) in
+                 cell.configure(with: recipe)
+            }
+            .disposed(by: disposeBag)
         
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first else {
-            return
-        }
+        viewModel.sliderItems
+            .map { $0.count }
+            .bind(to: pageControl.rx.numberOfPages)
+            .disposed(by: disposeBag)
         
-        window.rootViewController = navVC
-        window.makeKeyAndVisible()
+        viewModel.currentSlideIndex
+            .subscribe(onNext: { [weak self] index in
+                guard let self = self, self.viewModel.sliderItems.value.count > 0 else { return }
+                self.pageControl.currentPage = index
+                let indexPath = IndexPath(item: index, section: 0)
+                // Use DispatchQueue to ensure the cell exists before scrolling.
+                DispatchQueue.main.async {
+                    self.sliderCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                }
+            })
+            .disposed(by: disposeBag)
         
-        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
+        viewModel.categoryItems
+            .bind(to: categoryCollectionView.rx.items(cellIdentifier: CategoryViewCell.identifier, cellType: CategoryViewCell.self)) { (row, categoryName, cell) in
+                cell.configure(title: categoryName, iconName: "fork.knife")
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.recommendedItems
+            .bind(to: recommendedCollectionView.rx.items(cellIdentifier: RecommendedViewCell.identifier, cellType: RecommendedViewCell.self)) { (row, recipe, cell) in
+                 cell.configure(with: recipe)
+            }
+            .disposed(by: disposeBag)
+        
+        // 4. Update the Recommended height after data loading
+        viewModel.recommendedItems
+            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                self?.view.layoutIfNeeded()
+            })
+            .disposed(by: disposeBag)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        imageIv.layer.cornerRadius = imageIv.frame.width / 2
-        
-        // بنخلي الارتفاع بتاع الكولكشن يساوي طول المحتوى الحقيقي (ContentSize)
-        let contentHeight = recommendedCollectionView.collectionViewLayout.collectionViewContentSize.height
-        recommendedCVHeightConstraint.constant = contentHeight
+    @objc func notificationTapped(_ sender: UITapGestureRecognizer) {
+        print("Notification Tapped")
     }
     
     @IBAction func btnSeeAll(_ sender: Any) {
+        print("See All Tapped")
     }
     
 }

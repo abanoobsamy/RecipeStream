@@ -6,88 +6,25 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate {
+extension HomeVC {
     
-    func setupCollectionView() {
-        self.registerSliderCell()
-        self.registerCategoryCell()
-        self.registerRecommednedCell()
+    func setupCollectionViews() {
+        sliderCollectionView.register(SliderHomeViewCell.register(), forCellWithReuseIdentifier: SliderHomeViewCell.identifier)
+        categoryCollectionView.register(CategoryViewCell.register(), forCellWithReuseIdentifier: CategoryViewCell.identifier)
+        recommendedCollectionView.register(RecommendedViewCell.register(), forCellWithReuseIdentifier: RecommendedViewCell.identifier)
         
-        self.sliderCollectionView.delegate = self
-        self.sliderCollectionView.dataSource = self
+        sliderCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
+        categoryCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
+        recommendedCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        self.categoryCollectionView.delegate = self
-        self.categoryCollectionView.dataSource = self
-        
-        self.recommendedCollectionView.delegate = self
-        self.recommendedCollectionView.dataSource = self
-        
-        self.sliderCollectionView.backgroundColor = .clear
-        self.categoryCollectionView.backgroundColor = .clear
-        self.recommendedCollectionView.backgroundColor = .clear
-        
+        sliderCollectionView.contentInsetAdjustmentBehavior = .never
+        sliderCollectionView.backgroundColor = .clear
+        categoryCollectionView.backgroundColor = .clear
+        recommendedCollectionView.backgroundColor = .clear
     }
-    
-    func registerSliderCell() {
-        self.sliderCollectionView.register(SliderHomeViewCell.register(),
-                                           forCellWithReuseIdentifier: SliderHomeViewCell.identifier)
-    }
-    
-    func registerCategoryCell() {
-        self.categoryCollectionView.register(CategoryViewCell.register(),
-                                             forCellWithReuseIdentifier: CategoryViewCell.identifier)
-    }
-    
-    func registerRecommednedCell() {
-        self.recommendedCollectionView.register(RecommendedViewCell.register(),
-                                                forCellWithReuseIdentifier: RecommendedViewCell.identifier)
-    }
-    
-    func reloadCollectionView() {
-        DispatchQueue.main.async() {
-            self.sliderCollectionView.reloadData()
-            self.categoryCollectionView.reloadData()
-            self.recommendedCollectionView.reloadData()
-            // reload for view after data back from api
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == sliderCollectionView {
-            return 4
-        } else if collectionView == categoryCollectionView {
-            return 4
-        } else {
-            return 12
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == sliderCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SliderHomeViewCell.identifier, for: indexPath) as! SliderHomeViewCell
-            
-            return cell
-        }
-        else if collectionView == categoryCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryViewCell.identifier, for: indexPath) as! CategoryViewCell
-            
-            let categoryName = arrCategories[indexPath.item]
-            
-            // بنبعت الكلمة للخلية (ومعاها اسم الأيقونة لو حابب تثبتها أو تغيرها)
-            cell.configure(title: categoryName, iconName: "fork.knife")
-            return cell
-        }
-        else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedViewCell.identifier, for: indexPath) as! RecommendedViewCell
-            
-            return cell
-        }
-    }
-    
-    
 }
 
 extension HomeVC: UICollectionViewDelegateFlowLayout {
@@ -99,8 +36,10 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
             return CGSize(width: sliderWidth, height: sliderCollectionView.frame.height)
             
         } else if collectionView == categoryCollectionView {
-            let categoryName = arrCategories[indexPath.item]
+            let items = viewModel.categoryItems.value
             
+            guard indexPath.item < items.count else { return CGSize(width: 100, height: 32) }
+            let categoryName = items[indexPath.item]
             // 2. احسب عرض الكلمة
             let font = UIFont.systemFont(ofSize: 14, weight: .bold)
             let textWidth = categoryName.size(withAttributes: [.font: font]).width
@@ -161,34 +100,5 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
         }
-    }
-}
-
-extension HomeVC {
-    
-    func setupPager() {
-        sliderCollectionView.contentInsetAdjustmentBehavior = .never
-        pageControl.numberOfPages = 4
-        
-        startTimer()
-    }
-    
-    func startTimer() {
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(moveToNextSlide), userInfo: nil, repeats: true)
-    }
-    
-    @objc
-    func moveToNextSlide() {
-        if currentCellIndex < 4 - 1 {
-            currentCellIndex += 1
-        } else {
-            currentCellIndex = 0
-        }
-        
-        let indexPath = IndexPath(item: currentCellIndex, section: 0)
-        sliderCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        
-        pageControl.currentPage = currentCellIndex
     }
 }

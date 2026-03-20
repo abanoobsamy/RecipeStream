@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileVC" customModule="RecipeStream" customModuleProvider="target">
             <connections>
-                <outlet property="btnSetting" destination="t0t-o6-IAT" id="it1-ig-WKu"/>
+                <outlet property="btnLogout" destination="Ykr-v3-Gz1" id="3BN-9Y-FC4"/>
                 <outlet property="containerImgView" destination="4lX-3k-pAg" id="J2e-gI-Y7z"/>
                 <outlet property="nameLbl" destination="3U9-Mu-5Zv" id="K65-qB-EBB"/>
                 <outlet property="profileIV" destination="Btx-Jf-3hL" id="gSD-8x-gDs"/>
@@ -35,16 +35,6 @@
                                     <color key="textColor" name="ColorWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t0t-o6-IAT">
-                                    <rect key="frame" x="333" y="2.3333333333333321" width="40" height="40"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="40" id="8KG-13-48V"/>
-                                        <constraint firstAttribute="height" constant="40" id="MPB-4x-RPq"/>
-                                    </constraints>
-                                    <color key="tintColor" name="ColorWhite"/>
-                                    <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" image="gearshape" catalog="system"/>
-                                </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4lX-3k-pAg">
                                     <rect key="frame" x="132.66666666666666" y="68.666666666666686" width="127.99999999999997" height="128"/>
                                     <subviews>
@@ -74,21 +64,53 @@
                                     <color key="textColor" name="ColorGrayBlue"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" id="0rT-ke-DQe">
+                                    <rect key="frame" x="0.0" y="314.66666666666663" width="393" height="117.66666666666663"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ez3-6Z-Chy">
+                                            <rect key="frame" x="20" y="7.9999999999999982" width="353" height="19.333333333333329"/>
+                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                            <color key="textColor" name="ColorRedGray"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ykr-v3-Gz1">
+                                            <rect key="frame" x="20" y="47.333333333333329" width="353" height="50.333333333333329"/>
+                                            <color key="backgroundColor" white="0.25" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="tintColor" name="ColorRedGray"/>
+                                            <state key="normal" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="plain" image="rectangle.portrait.and.arrow.right" catalog="system" imagePadding="12">
+                                                <attributedString key="attributedTitle">
+                                                    <fragment content="Logout">
+                                                        <attributes>
+                                                            <color key="NSColor" red="0.9301757812" green="0.4560546875" blue="0.4389648438" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                            <font key="NSFont" size="18" name="ArialMT"/>
+                                                            <font key="NSOriginalFont" size="12" name="Helvetica"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                            </buttonConfiguration>
+                                        </button>
+                                    </subviews>
+                                    <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="20" bottom="20" trailing="20"/>
+                                </stackView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="t0t-o6-IAT" secondAttribute="trailing" constant="20" id="2rW-sr-WBb"/>
+                                <constraint firstAttribute="trailing" secondItem="0rT-ke-DQe" secondAttribute="trailing" id="BSF-s4-Inx"/>
                                 <constraint firstItem="hu3-2S-NIX" firstAttribute="top" secondItem="3U9-Mu-5Zv" secondAttribute="bottom" constant="4" id="EIN-2Z-IIR"/>
                                 <constraint firstItem="IDF-WB-OsJ" firstAttribute="leading" secondItem="hxO-1W-kXc" secondAttribute="leading" constant="20" id="FwW-YO-jFm"/>
-                                <constraint firstItem="t0t-o6-IAT" firstAttribute="centerY" secondItem="IDF-WB-OsJ" secondAttribute="centerY" id="G85-Kv-jdg"/>
                                 <constraint firstAttribute="trailing" secondItem="3U9-Mu-5Zv" secondAttribute="trailing" constant="20" id="HP1-1l-mE5"/>
                                 <constraint firstAttribute="trailing" secondItem="hu3-2S-NIX" secondAttribute="trailing" constant="20" id="JhL-YJ-mn2"/>
                                 <constraint firstItem="IDF-WB-OsJ" firstAttribute="top" secondItem="hxO-1W-kXc" secondAttribute="top" constant="8" id="Kau-JI-lfI"/>
                                 <constraint firstItem="4lX-3k-pAg" firstAttribute="top" secondItem="IDF-WB-OsJ" secondAttribute="bottom" constant="32" id="PU6-uH-ubM"/>
                                 <constraint firstItem="hu3-2S-NIX" firstAttribute="leading" secondItem="hxO-1W-kXc" secondAttribute="leading" constant="20" id="aqA-qZ-QfC"/>
+                                <constraint firstItem="0rT-ke-DQe" firstAttribute="top" secondItem="hu3-2S-NIX" secondAttribute="bottom" constant="48" id="axg-To-gs3"/>
+                                <constraint firstItem="0rT-ke-DQe" firstAttribute="leading" secondItem="hxO-1W-kXc" secondAttribute="leading" id="bzL-IB-uFc"/>
                                 <constraint firstItem="4lX-3k-pAg" firstAttribute="centerX" secondItem="hxO-1W-kXc" secondAttribute="centerX" id="dml-wm-MOt"/>
                                 <constraint firstItem="3U9-Mu-5Zv" firstAttribute="top" secondItem="4lX-3k-pAg" secondAttribute="bottom" constant="20" id="gTO-xX-dzj"/>
                                 <constraint firstAttribute="height" constant="852" id="jvu-at-bow"/>
+                                <constraint firstAttribute="bottom" secondItem="0rT-ke-DQe" secondAttribute="bottom" id="mWB-fa-oWY"/>
                                 <constraint firstItem="3U9-Mu-5Zv" firstAttribute="leading" secondItem="hxO-1W-kXc" secondAttribute="leading" constant="20" id="yNc-yk-xfQ"/>
                             </constraints>
                         </view>
@@ -116,13 +138,16 @@
         </view>
     </objects>
     <resources>
-        <image name="gearshape" catalog="system" width="128" height="123"/>
         <image name="profile" width="512" height="512"/>
+        <image name="rectangle.portrait.and.arrow.right" catalog="system" width="128" height="109"/>
         <namedColor name="ColorDarkGray">
             <color red="0.11800000071525574" green="0.11800000071525574" blue="0.11800000071525574" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorGrayBlue">
             <color red="0.57999998331069946" green="0.63899999856948853" blue="0.72200000286102295" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ColorRedGray">
+            <color red="1" green="0.41999998688697815" blue="0.41999998688697815" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorWhite">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

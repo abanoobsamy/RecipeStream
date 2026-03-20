@@ -7,19 +7,26 @@
 
 import UIKit
 import Kingfisher
+import RxSwift
+import RxCocoa
 
 class ProfileVC: UIViewController {
 
     @IBOutlet weak var containerImgView: UIView!
     @IBOutlet weak var profileIV: UIImageView!
-    @IBOutlet weak var btnSetting: UIButton!
+    @IBOutlet weak var btnLogout: UIButton!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var usernameLbl: UILabel!
+    
+    // variables
+    
+    let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupViews()
+        setupBinding()
     }
     
     override func viewDidLayoutSubviews() {
@@ -35,6 +42,32 @@ class ProfileVC: UIViewController {
         
         containerImgView.makeCircular(borderWidth: 1.5, borderColor: .colorOrange)
         loadCircularProfileImage()
+    }
+    
+    func setupBinding() {
+        btnLogout.rx.tap
+            .throttle(.milliseconds(300), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+                self?.logout()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func logout() {
+        SessionManager.clearSession()
+        
+        let vc = LoginVC()
+        let navVC = UINavigationController(rootViewController: vc)
+        
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else {
+            return
+        }
+        
+        window.rootViewController = navVC
+        window.makeKeyAndVisible()
+        
+        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
     }
     
     private func loadCircularProfileImage() {
@@ -62,3 +95,4 @@ class ProfileVC: UIViewController {
         )
     }
 }
+
