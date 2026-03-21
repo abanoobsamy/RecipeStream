@@ -18,6 +18,16 @@ class SearchViewCell: UICollectionViewCell {
     @IBOutlet weak var rateLbl: UILabel!
     @IBOutlet weak var reviewsLbl: UILabel!
     
+    public static var identifier: String {
+        get {
+            return "SearchViewCell"
+        }
+    }
+    
+    public static func register() -> UINib {
+        UINib(nibName: "SearchViewCell", bundle: nil)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()

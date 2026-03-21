@@ -16,6 +16,16 @@ class FavoriteViewCell: UICollectionViewCell {
     @IBOutlet weak var timeLbl: UILabel!
     @IBOutlet weak var caloriesLbl: UILabel!
     
+    public static var identifier: String {
+        get {
+            return "FavoriteViewCell"
+        }
+    }
+    
+    public static func register() -> UINib {
+        UINib(nibName: "FavoriteViewCell", bundle: nil)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()

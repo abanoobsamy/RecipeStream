@@ -10,6 +10,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchVC" customModule="RecipeStream" customModuleProvider="target">
             <connections>
+                <outlet property="categoryCollectionView" destination="LmX-3N-UnJ" id="afJ-cq-hzC"/>
+                <outlet property="resultsCollectionView" destination="tir-ch-021" id="bDE-i0-lK8"/>
+                <outlet property="resultsCountLbl" destination="6XT-rz-AEj" id="3ug-fl-Z3r"/>
+                <outlet property="searchBar" destination="se5-Ao-hyQ" id="C3J-KM-QC4"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,9 +26,6 @@
                     <rect key="frame" x="20" y="56" width="353" height="64"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <textInputTraits key="textInputTraits"/>
-                    <connections>
-                        <outlet property="delegate" destination="-1" id="bt7-LH-oID"/>
-                    </connections>
                 </searchBar>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="LmX-3N-UnJ">
                     <rect key="frame" x="20" y="128" width="353" height="56"/>
@@ -46,7 +47,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="tir-ch-021">
-                    <rect key="frame" x="20" y="237" width="353" height="515"/>
+                    <rect key="frame" x="20" y="237" width="353" height="615"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="PKq-Z4-JL7">
                         <size key="itemSize" width="128" height="128"/>
@@ -67,7 +68,7 @@
                 <constraint firstItem="tir-ch-021" firstAttribute="top" secondItem="6XT-rz-AEj" secondAttribute="bottom" constant="8" id="Toa-Ji-EJg"/>
                 <constraint firstItem="6XT-rz-AEj" firstAttribute="top" secondItem="LmX-3N-UnJ" secondAttribute="bottom" constant="24" id="Xfh-BO-koY"/>
                 <constraint firstAttribute="trailing" secondItem="se5-Ao-hyQ" secondAttribute="trailing" constant="20" id="Y2Z-je-rTo"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="tir-ch-021" secondAttribute="bottom" constant="32" id="YzJ-k7-WRl"/>
+                <constraint firstAttribute="bottom" secondItem="tir-ch-021" secondAttribute="bottom" id="Yde-ii-dR3"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="tir-ch-021" secondAttribute="trailing" constant="20" id="ZQV-FW-ArO"/>
                 <constraint firstItem="LmX-3N-UnJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="nxV-P1-3lF"/>
                 <constraint firstItem="se5-Ao-hyQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="56" id="sWT-vZ-DD2"/>

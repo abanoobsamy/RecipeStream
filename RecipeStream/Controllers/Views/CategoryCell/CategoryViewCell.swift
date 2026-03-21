@@ -38,7 +38,13 @@ class CategoryViewCell: UICollectionViewCell {
     
     func configure(title: String, iconName: String) {
         titleLbl.text = title
-        iconIv.image = UIImage(systemName: iconName)
+        if iconName.isEmpty {
+            iconIv.isHidden = true
+            titleLbl.textAlignment = .center
+        } else {
+            iconIv.isHidden = false
+            iconIv.image = UIImage(systemName: iconName)
+        }
     }
     
     override var isSelected: Bool {
