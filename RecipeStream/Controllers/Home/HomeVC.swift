@@ -35,12 +35,6 @@ class HomeVC: UIViewController {
         setupCollectionViews()
         setupViews()
         bindViewModel()
-        
-        // Select for (All)
-        DispatchQueue.main.async { [weak self] in
-            let firstIndexPath = IndexPath(item: 0, section: 0)
-            self?.categoryCollectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: .right)
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -162,7 +156,31 @@ class HomeVC: UIViewController {
             }
             .disposed(by: disposeBag)
         
+        viewModel.categoryItems
+            .filter { !$0.isEmpty }
+            .take(1)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                DispatchQueue.main.async {
+                    let firstIndexPath = IndexPath(item: 0, section: 0)
+                    self?.categoryCollectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: .centeredHorizontally)
+                    
+                    self?.viewModel.selectedCategory.accept("All")
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        categoryCollectionView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let self = self else { return }
+                
+                let selectedCat = self.viewModel.categoryItems.value[indexPath.item]
+                self.viewModel.selectedCategory.accept(selectedCat)
+            })
+            .disposed(by: disposeBag)
+        
         viewModel.recommendedItems
+            .observe(on: MainScheduler.instance)
             .bind(to: recommendedCollectionView.rx.items(cellIdentifier: RecommendedViewCell.identifier, cellType: RecommendedViewCell.self)) { (row, recipe, cell) in
                  cell.configure(with: recipe)
             }

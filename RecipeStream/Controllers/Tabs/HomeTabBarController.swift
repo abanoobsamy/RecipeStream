@@ -32,18 +32,16 @@ class HomeTabBarController: UITabBarController {
                                           image: UIImage(systemName: "house.fill"),
                                           tag: 0)
         
-        let searchVC = UIViewController() // default vc for now
-        searchVC.view.backgroundColor = .systemBlue
-        searchVC.title = "Search"
+        let searchVC = SearchVC()
         let searchNav = UINavigationController(rootViewController: searchVC)
+        searchNav.isNavigationBarHidden = true
         searchNav.tabBarItem = UITabBarItem(title: "Search",
                                             image: UIImage(systemName: "magnifyingglass"),
                                             tag: 1)
         
-        let favoritesVC = UIViewController() // default vc for now
-        favoritesVC.view.backgroundColor = .systemBlue
-        favoritesVC.title = "Favorite"
+        let favoritesVC = FavoriteVC()
         let favoritesNav = UINavigationController(rootViewController: favoritesVC)
+        favoritesNav.isNavigationBarHidden = true
         favoritesNav.tabBarItem = UITabBarItem(title: "Favorite",
                                                image: UIImage(systemName: "heart"),
                                                selectedImage: UIImage(systemName: "heart.fill"))

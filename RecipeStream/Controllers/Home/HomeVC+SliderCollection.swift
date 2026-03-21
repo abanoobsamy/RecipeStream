@@ -103,32 +103,36 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
             
         } else if collectionView == categoryCollectionView {
             let items = viewModel.categoryItems.value
-            
             guard indexPath.item < items.count else { return CGSize(width: 100, height: 32) }
             let categoryName = items[indexPath.item]
-            // 2. احسب عرض الكلمة
+            
             let font = UIFont.systemFont(ofSize: 14, weight: .bold)
             let textWidth = categoryName.size(withAttributes: [.font: font]).width
-            
-            // 3. الحسبة الدقيقة:
-            // عرض الكلمة + عرض الأيقونا (20) + المسافة بينهم (8) + مسافة الشمال (16) + مسافة اليمين (16)
-            // يعني الإجمالي: textWidth + 60
             let totalWidth = textWidth + 64
             
             return CGSize(width: totalWidth, height: 32)
+            
         } else {
+            // 1. سطر الحماية (Guard) لمنع القيم السالبة عند بدء التحميل
+            guard collectionView.frame.width > 0 else {
+                return CGSize(width: 150, height: 240) // مقاس افتراضي آمن
+            }
+            
             let isLandscape = self.view.bounds.width > self.view.bounds.height
             let numberOfColumns: CGFloat = isLandscape ? 4 : 2
             
             // 2. حساب المسافات
             let padding: CGFloat = 8
             let spacingBetweenCells: CGFloat = 8
+            let totalSpacing = spacingBetweenCells * (numberOfColumns - 1)
             
-            // الحسبة: عرض الشاشة - (مسافة اليمين + مسافة الشمال + المسافة اللي في النص)
-            let availableWidth = collectionView.frame.width - (padding * 2) - spacingBetweenCells
-            let cellWidth = isLandscape ? availableWidth / numberOfColumns : availableWidth / 2
+            // الحسبة: عرض الشاشة - مسافات الحواف - المسافات الداخلية
+            let availableWidth = collectionView.frame.width - (padding * 2) - totalSpacing
             
-            let cellHeight = isLandscape ? 240 : cellWidth * 1.2
+            // استخدمنا floor لضمان عدم وجود كسور تبوظ الـ Layout
+            let cellWidth = floor(availableWidth / numberOfColumns)
+            let cellHeight = isLandscape ? 240 : (cellWidth * 1.2)
+            
             return CGSize(width: cellWidth, height: cellHeight)
         }
     }
@@ -161,9 +165,8 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
         } else if collectionView == categoryCollectionView {
             return UIEdgeInsets(top: 1, left: 2, bottom: 1, right: 2)
         } else {
-//            return UIEdgeInsets(top: 10, left: 16, bottom: 16, right: 16)
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-
+            // 🚨 مهم جداً: يجب أن يتطابق الـ left والـ right هنا مع الـ padding الذي استخدمناه في معادلة الحجم (8)
+            return UIEdgeInsets(top: 10, left: 8, bottom: 16, right: 8)
         }
     }
 }

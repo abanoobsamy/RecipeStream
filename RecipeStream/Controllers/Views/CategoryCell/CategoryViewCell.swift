@@ -26,6 +26,7 @@ class CategoryViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        containerView.round(12)
         setupUnselectedState()
     }
     
