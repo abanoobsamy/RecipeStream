@@ -16,6 +16,10 @@ class RecommendedViewCell: UICollectionViewCell {
     @IBOutlet weak var descLbl: UILabel!
     @IBOutlet weak var favoriteIv: UIImageView!
     
+    var onFavoriteTapped: (() -> Void)?
+    
+    private var isFavorite: Bool = false
+
     public static var identifier: String {
         get {
             return "RecommendedViewCell"
@@ -28,17 +32,38 @@ class RecommendedViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        setupUI()
+        setupFavoriteTap()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
+    func setupUI() {
         favoriteIv.makeCircularIcon(bgColor: .systemGray6)
         containerView.round(20)
     }
+    
+    private func setupFavoriteTap() {
+        favoriteIv.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(heartIconTapped))
+        favoriteIv.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func heartIconTapped() {
+        isFavorite.toggle()
+        updateHeartUI()
+        
+        onFavoriteTapped?()
+    }
+    private func updateHeartUI() {
+        let imageName = isFavorite ? "heart.fill" : "heart"
+        favoriteIv.image = UIImage(systemName: imageName)
+        favoriteIv.tintColor = isFavorite ? .red : .lightGray
+    }
+    
+    func configure(with model: Recipe, isFav: Bool = false) {
+        
+        self.isFavorite = isFav
+        updateHeartUI()
 
-    func configure(with model: Recipe) {
         titleLbl.text = model.name ?? ""
         descLbl.text = "\(model.difficulty ?? "") \(model.cuisine ?? "") \(model.caloriesPerServing ?? 0) kcal \(model.cookTimeMinutes ?? 0) min"
         

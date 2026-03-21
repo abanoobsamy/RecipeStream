@@ -57,7 +57,6 @@ class MealDetailsVC: UIViewController {
         configView()
         setupCollectionViews()
         bindViewModel()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,7 +66,7 @@ class MealDetailsVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-                
+        
         let contentHeight = ingredientsCollectionView.collectionViewLayout.collectionViewContentSize.height
         if contentHeight > 0 {
             heightIngredientLayout.constant = contentHeight
@@ -98,7 +97,7 @@ class MealDetailsVC: UIViewController {
     }
     
     func bindViewModel() {
-                
+        
         viewModel.imageUrl
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] url in
@@ -106,7 +105,7 @@ class MealDetailsVC: UIViewController {
                 loadImage(imageUrl: url)
             })
             .disposed(by: disposeBag)
-                
+        
         viewModel.title
             .bind(to: titleLbl.rx.text)
             .disposed(by: disposeBag)
@@ -114,19 +113,19 @@ class MealDetailsVC: UIViewController {
         viewModel.mealType
             .bind(to: descLbl.rx.text)
             .disposed(by: disposeBag)
-                
+        
         viewModel.time
             .bind(to: timeLbl.rx.text)
             .disposed(by: disposeBag)
-                
+        
         viewModel.calories
             .bind(to: kcalLbl.rx.text)
             .disposed(by: disposeBag)
-                
+        
         viewModel.level
             .bind(to: levelLbl.rx.text)
             .disposed(by: disposeBag)
-                
+        
         viewModel.servings
             .bind(to: servingsLbl.rx.text)
             .disposed(by: disposeBag)
@@ -165,13 +164,32 @@ class MealDetailsVC: UIViewController {
                 self?.heightIngredientLayout.constant = height + 10
             }
             .disposed(by: disposeBag)
-
+        
         instructionsCollectionView.rx.observe(CGSize.self, "contentSize")
             .compactMap { $0?.height }
             .distinctUntilChanged() // To avoid frequent updates of the same value
             .bind { [weak self] height in
                 self?.heightInsturctionLayout.constant = height + 10
             }
+            .disposed(by: disposeBag)
+        
+        viewModel.isLoading
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] isLoading in
+                guard let self else { return }
+                print("isLoading State: \(isLoading)")
+                showPuddingLoader(show: isLoading)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isFavorite
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] isFav in
+                let imageName = isFav ? "heart.fill" : "heart"
+                let color: UIColor = isFav ? .red : .black
+                self?.favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
+                self?.favoriteButton.tintColor = color
+            })
             .disposed(by: disposeBag)
     }
     
@@ -196,7 +214,7 @@ class MealDetailsVC: UIViewController {
         shareButton.addTarget(self, action: #selector(shareTapped), for: .touchUpInside)
         
         let imageName = isFavorite ? "heart.fill" : "heart"
-
+        
         favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
         favoriteButton.tintColor = .black
         favoriteButton.backgroundColor = UIColor.systemGray6
@@ -210,24 +228,16 @@ class MealDetailsVC: UIViewController {
         
         navigationItem.rightBarButtonItems = [shareBarButtonItem, favoriteBarButtonItem]
     }
-
+    
     @objc private func shareTapped() {
         print("Share tapped")
     }
-
+    
     @objc private func favoriteTapped() {
         print("Favorite tapped")
-
-        isFavorite.toggle()
-            
-        let imageName = isFavorite ? "heart.fill" : "heart"
-        let color: UIColor = isFavorite ? .red : .black
-        
-        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
-        favoriteButton.tintColor = color
-        
-        // Adding a subtle haptic feedback effect to give a professional feel
         let generator = UISelectionFeedbackGenerator()
         generator.selectionChanged()
+        
+        viewModel.favoriteButtonTapped()
     }
 }

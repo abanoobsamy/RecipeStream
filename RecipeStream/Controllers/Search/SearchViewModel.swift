@@ -11,6 +11,9 @@ import RxCocoa
 
 class SearchViewModel {
     
+    let favoriteService: FavoriteServiceProtocol = FavoriteService.shared
+    let favoriteIDs = BehaviorRelay<Set<Int>>(value: [])
+
     // MARK: - Source of Truth
     private let rawSearchResults = BehaviorRelay<[Recipe]>(value: [])
     
@@ -33,6 +36,7 @@ class SearchViewModel {
     init() {
         setupSearchLogic()
         setupCategoryFilteringLogic()
+        fetchFavoriteIDs()
     }
     
     private func setupSearchLogic() {
@@ -108,6 +112,42 @@ class SearchViewModel {
             }, onError: { [weak self] error in
                 self?.isLoading.accept(false)
                 self?.errorMessage.accept(error.localizedDescription)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func toggleFavorite(recipe: Recipe) {
+        guard let recipeID = recipe.id else { return }
+        
+        // Knowing the new state (opposite of the current state)
+        var currentFavs = favoriteIDs.value
+        let isCurrentlyFavorite = currentFavs.contains(recipeID)
+        let newState = !isCurrentlyFavorite
+        
+        // Real-time local update (Optimistic UI) so that the heart color changes instantly without delay
+        if newState {
+            currentFavs.insert(recipeID)
+        } else {
+            currentFavs.remove(recipeID)
+        }
+        favoriteIDs.accept(currentFavs)
+        
+        favoriteService.toggleFavorite(recipe: recipe, isFavorite: newState)
+            .subscribe(onSuccess: {
+                let action = newState ? "added to" : "removed from"
+                print("Recipe \(recipe.name ?? "") \(action) favorites!")
+            }, onFailure: { [weak self] error in
+                self?.errorMessage.accept(error.localizedDescription)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func fetchFavoriteIDs() {
+        favoriteService.getFavoriteIDs()
+            .subscribe(onSuccess: { [weak self] ids in
+                self?.favoriteIDs.accept(ids)
+            }, onFailure: { error in
+                print("Failed to fetch favorite IDs: \(error)")
             })
             .disposed(by: disposeBag)
     }

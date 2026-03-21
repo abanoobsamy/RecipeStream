@@ -179,10 +179,31 @@ class HomeVC: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        viewModel.recommendedItems
+        let recipesWithFavState = RxSwift.Observable.combineLatest(
+            viewModel.recommendedItems,
+            viewModel.favoriteIDs
+        ).map { recipes, favIds -> [(Recipe, Bool)] in
+            // We go through each recipe and ask: Is its ID present within the Set?
+            return recipes.map { recipe in
+                let isFav = favIds.contains(recipe.id ?? -1)
+                return (recipe, isFav)
+            }
+        }
+        
+        recipesWithFavState
             .observe(on: MainScheduler.instance)
-            .bind(to: recommendedCollectionView.rx.items(cellIdentifier: RecommendedViewCell.identifier, cellType: RecommendedViewCell.self)) { (row, recipe, cell) in
-                 cell.configure(with: recipe)
+            .bind(to: recommendedCollectionView.rx.items(cellIdentifier: RecommendedViewCell.identifier, cellType: RecommendedViewCell.self)) { (row, item, cell) in
+                
+                let currentRecipe = item.0
+                let isFavorite = item.1
+
+                 cell.configure(with: currentRecipe, isFav: isFavorite)
+                
+                cell.onFavoriteTapped = { [weak self] in
+                    let generator = UISelectionFeedbackGenerator()
+                    generator.selectionChanged()
+                    self?.viewModel.toggleFavorite(recipe: currentRecipe)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -195,12 +216,13 @@ class HomeVC: UIViewController {
             .disposed(by: disposeBag)
         
         recommendedCollectionView.rx.itemSelected
-            .withLatestFrom(viewModel.recommendedItems) { indexPath, items in
+            .withLatestFrom(recipesWithFavState) { indexPath, items in
                 return items[indexPath.item]
             }
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] selectedRecipe in
-                self?.navigateToMealDetails(recipe: selectedRecipe)
+            .subscribe(onNext: { [weak self] selectedItem in
+                let recipe = selectedItem.0
+                self?.navigateToMealDetails(recipe: recipe)
                 
                 // (Optional) Enable optical cell selection if needed
                 if let selectedIndexPath = self?.recommendedCollectionView.indexPathsForSelectedItems?.first {
@@ -218,7 +240,10 @@ class HomeVC: UIViewController {
     }
     
     func navigateToMealDetails(recipe: Recipe) {
-        let detailsViewModel = DetailsViewModel(recipe: recipe)
+        guard let recipeId = recipe.id else { return }
+       
+//        let detailsViewModel = DetailsViewModel(recipe: recipe)
+        let detailsViewModel = DetailsViewModel(recipeId: recipeId)
         guard let vc = MealDetailsVC(viewModel: detailsViewModel) else { return }
         
         vc.hidesBottomBarWhenPushed = true
@@ -231,11 +256,6 @@ class HomeVC: UIViewController {
     
     @IBAction func btnSeeAll(_ sender: Any) {
         print("See All Tapped")
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        showPuddingLoader(show: false)
     }
 }
 

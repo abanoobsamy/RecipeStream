@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 class SearchVC: UIViewController {
-
+    
     // MARK: - Outlets
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
@@ -23,7 +23,7 @@ class SearchVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupCollectionViews()
         setupUI()
         bindViewModel()
@@ -34,9 +34,9 @@ class SearchVC: UIViewController {
         // Automatically hide the keyboard when the user scrolls (a professional UX touch)
         resultsCollectionView.keyboardDismissMode = .onDrag
         
-//        searchBar.backgroundImage = UIImage()
+        //        searchBar.backgroundImage = UIImage()
     }
-
+    
     // MARK: - Rx Bindings
     private func bindViewModel() {
         
@@ -81,11 +81,32 @@ class SearchVC: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        let recipesWithFavState = RxSwift.Observable.combineLatest(
+            viewModel.searchResults,
+            viewModel.favoriteIDs
+        ).map { recipes, favIds -> [(Recipe, Bool)] in
+            // We go through each recipe and ask: Is its ID present within the Set?
+            return recipes.map { recipe in
+                let isFav = favIds.contains(recipe.id ?? -1)
+                return (recipe, isFav)
+            }
+        }
+        
         // Link the filtered results to the Results CollectionView (Output)
-        viewModel.searchResults
+        recipesWithFavState
             .observe(on: MainScheduler.instance)
-            .bind(to: resultsCollectionView.rx.items(cellIdentifier: SearchViewCell.identifier, cellType: SearchViewCell.self)) { (row, recipe, cell) in
-                cell.configure(with: recipe)
+            .bind(to: resultsCollectionView.rx.items(cellIdentifier: SearchViewCell.identifier, cellType: SearchViewCell.self)) { (row, item, cell) in
+                
+                let currentRecipe = item.0
+                let isFavorite = item.1
+                
+                cell.configure(with: currentRecipe, isFav: isFavorite)
+                
+                cell.onFavoriteTapped = { [weak self] in
+                    let generator = UISelectionFeedbackGenerator()
+                    generator.selectionChanged()
+                    self?.viewModel.toggleFavorite(recipe: currentRecipe)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -101,23 +122,22 @@ class SearchVC: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        resultsCollectionView.rx.modelSelected(Recipe.self)
-            .subscribe(onNext: { [weak self] selectedRecipe in
-                 self?.navigateToMealDetails(recipe: selectedRecipe)
+        resultsCollectionView.rx.modelSelected((Recipe, Bool).self)
+            .subscribe(onNext: { [weak self] selectedItem in
+                let recipe = selectedItem.0
+                self?.navigateToMealDetails(recipe: recipe)
             })
             .disposed(by: disposeBag)
     }
     
     func navigateToMealDetails(recipe: Recipe) {
-        let detailsViewModel = DetailsViewModel(recipe: recipe)
+        guard let recipeId = recipe.id else { return }
+        
+        //        let detailsViewModel = DetailsViewModel(recipe: recipe)
+        let detailsViewModel = DetailsViewModel(recipeId: recipeId)
         guard let vc = MealDetailsVC(viewModel: detailsViewModel) else { return }
         
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        showPuddingLoader(show: false)
-//    }
 }

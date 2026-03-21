@@ -15,6 +15,7 @@ enum Constants {
         enum Collections {
             static let users = "users"
             static let recipes = "recipes"
+            static let favorites = "favorites"
         }
         
         // (User Document Fields)
