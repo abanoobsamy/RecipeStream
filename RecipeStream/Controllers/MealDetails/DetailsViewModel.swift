@@ -23,7 +23,7 @@ final class DetailsViewModel {
     let servings = BehaviorRelay<String>(value: "")
     
     let tags = BehaviorRelay<[String]>(value: [])
-    let ingredients = BehaviorRelay<[String]>(value: [])
+    let ingredients = BehaviorRelay<[IngredientItem]>(value: [])
     let instructions = BehaviorRelay<[String]>(value: [])
     
     // MARK: - Private Properties
@@ -51,7 +51,18 @@ final class DetailsViewModel {
         servings.accept("\(recipe.servings ?? 0) servings")
         
         tags.accept(recipe.tags ?? [])
-        ingredients.accept(recipe.ingredients ?? [])
         instructions.accept(recipe.instructions ?? [])
+        
+        let mappedIngredients = (recipe.ingredients ?? []).map { ingredientString in
+            return IngredientItem(title: ingredientString, isChecked: false)
+        }
+        ingredients.accept(mappedIngredients)
+    }
+    
+    func toggleIngredient(at index: Int) {
+        var currentItems = ingredients.value
+        currentItems[index].isChecked.toggle()
+        
+        ingredients.accept(currentItems)
     }
 }

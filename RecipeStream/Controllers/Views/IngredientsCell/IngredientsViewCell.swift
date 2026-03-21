@@ -27,8 +27,25 @@ class IngredientsViewCell: UICollectionViewCell {
         // Initialization code
     }
 
-    func configure(title: String) {
-        self.titleLbl.text = title
+    func configure(with item: IngredientItem) {
+        let attributeString = NSMutableAttributedString(string: item.title)
+        let fullRange = NSMakeRange(0, attributeString.length)
+            
+        if item.isChecked {
+            btnCheckbox.setImage(UIImage(systemName: "checkmark.rectangle.portrait.fill"), for: .normal)
+            btnCheckbox.tintColor = .colorRedGray
+            
+            attributeString.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: fullRange)
+            attributeString.addAttribute(.foregroundColor, value: UIColor.lightGray, range: fullRange)
+            
+        } else {
+            btnCheckbox.setImage(UIImage(systemName: "checkmark.rectangle.portrait"), for: .normal)
+            btnCheckbox.tintColor = .colorOrange
+            
+            attributeString.addAttribute(.foregroundColor, value: UIColor.black, range: fullRange)
+        }
+        
+        titleLbl.attributedText = attributeString
     }
     
 }

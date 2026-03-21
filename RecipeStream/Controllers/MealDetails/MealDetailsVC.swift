@@ -136,8 +136,14 @@ class MealDetailsVC: UIViewController {
         
         viewModel.ingredients
             .bind(to: ingredientsCollectionView.rx.items(cellIdentifier: IngredientsViewCell.identifier, cellType: IngredientsViewCell.self)) { (row, ingredient, cell) in
-                cell.configure(title: ingredient)
+                cell.configure(with: ingredient)
             }
+            .disposed(by: disposeBag)
+        
+        ingredientsCollectionView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                self?.viewModel.toggleIngredient(at: indexPath.item)
+            })
             .disposed(by: disposeBag)
         
         viewModel.instructions
