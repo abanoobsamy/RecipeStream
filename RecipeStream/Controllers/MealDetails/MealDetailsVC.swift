@@ -111,6 +111,10 @@ class MealDetailsVC: UIViewController {
         viewModel.title
             .bind(to: titleLbl.rx.text)
             .disposed(by: disposeBag)
+        
+        viewModel.mealType
+            .bind(to: descLbl.rx.text)
+            .disposed(by: disposeBag)
                 
         viewModel.time
             .bind(to: timeLbl.rx.text)
@@ -228,4 +232,3 @@ class MealDetailsVC: UIViewController {
         generator.selectionChanged()
     }
 }
-

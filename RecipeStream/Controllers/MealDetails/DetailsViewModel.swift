@@ -26,6 +26,8 @@ final class DetailsViewModel {
     let ingredients = BehaviorRelay<[IngredientItem]>(value: [])
     let instructions = BehaviorRelay<[String]>(value: [])
     
+    let mealType = BehaviorRelay<String>(value: "")
+    
     // MARK: - Private Properties
     private let recipe: Recipe
     
@@ -57,6 +59,9 @@ final class DetailsViewModel {
             return IngredientItem(title: ingredientString, isChecked: false)
         }
         ingredients.accept(mappedIngredients)
+        
+        let formattedMeals = (recipe.mealType ?? []).joined(separator: ", ")
+        mealType.accept("\(formattedMeals)")
     }
     
     func toggleIngredient(at index: Int) {
