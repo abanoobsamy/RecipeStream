@@ -126,7 +126,7 @@ class HomeVC: UIViewController {
         )
     }
     
-    // MARK: - ViewModel Binding (RxSwift السحر)
+    // MARK: - ViewModel Binding
     private func bindViewModel() {
         
         viewModel.sliderItems

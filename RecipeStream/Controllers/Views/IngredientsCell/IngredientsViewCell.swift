@@ -6,11 +6,17 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class IngredientsViewCell: UICollectionViewCell {
     
     @IBOutlet weak var btnCheckbox: UIButton!
     @IBOutlet weak var titleLbl: UILabel!
+    
+    private var cellDisposeBag = DisposeBag()
+    
+    var onCheckButtonTapped: (() -> Void)?
     
     public static var identifier: String {
         get {
@@ -24,7 +30,21 @@ class IngredientsViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        setupBinding()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cellDisposeBag = DisposeBag()
+        setupBinding()
+    }
+    
+    private func setupBinding() {
+        btnCheckbox.rx.tap
+            .bind { [weak self] in
+                self?.onCheckButtonTapped?()
+            }
+            .disposed(by: cellDisposeBag)
     }
 
     func configure(with item: IngredientItem) {

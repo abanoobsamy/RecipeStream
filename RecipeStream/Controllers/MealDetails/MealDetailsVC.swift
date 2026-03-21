@@ -137,6 +137,9 @@ class MealDetailsVC: UIViewController {
         viewModel.ingredients
             .bind(to: ingredientsCollectionView.rx.items(cellIdentifier: IngredientsViewCell.identifier, cellType: IngredientsViewCell.self)) { (row, ingredient, cell) in
                 cell.configure(with: ingredient)
+                cell.onCheckButtonTapped = { [weak self] in
+                    self?.viewModel.toggleIngredient(at: row)
+                }
             }
             .disposed(by: disposeBag)
         
