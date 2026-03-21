@@ -80,13 +80,12 @@ class MealDetailsVC: UIViewController {
     
     private func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()
-        // هذا السطر هو السر لجعل الشريط شفافاً بالكامل
+        // This line is the secret to making the tape completely transparent
         appearance.configureWithTransparentBackground()
         
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        // تأكد من أن الأزرار (مثل الرجوع والمفضلة) بألوان تظهر بوضوح فوق الصورة
         navigationController?.navigationBar.tintColor = .white
         navigationItem.backButtonTitle = ""
     }

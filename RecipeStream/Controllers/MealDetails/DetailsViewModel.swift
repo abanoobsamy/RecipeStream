@@ -46,7 +46,9 @@ final class DetailsViewModel {
         title.accept(recipe.name ?? "Unknown Recipe")
         author.accept("By \(recipe.rating ?? 0) Chef")
         
-        time.accept("\(recipe.cookTimeMinutes ?? 0) min")
+        let timeNum = recipe.cookTimeMinutes ?? 0 + (recipe.cookTimeMinutes ?? 0)
+        
+        time.accept("\(timeNum) min")
         calories.accept("\(recipe.caloriesPerServing ?? 0) kcal")
         level.accept(recipe.difficulty ?? "")
         

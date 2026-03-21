@@ -43,6 +43,7 @@
 		6BFC6D532F673633005CC16B /* Exceptions for "RecipeStream" folder in "RecipeStream" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Controllers/Search/Untitled.swift,
 				Resources/Info.plist,
 			);
 			target = 6BFC6D2A2F673632005CC16B /* RecipeStream */;
