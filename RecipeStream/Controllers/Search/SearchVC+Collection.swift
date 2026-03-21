@@ -38,7 +38,7 @@ extension SearchVC: UICollectionViewDelegateFlowLayout {
             
             let font = UIFont.systemFont(ofSize: 14, weight: .bold)
             let textWidth = categoryName.size(withAttributes: [.font: font]).width
-            let totalWidth = textWidth + 64
+            let totalWidth = textWidth + 32
             
             return CGSize(width: totalWidth, height: 32)
             
