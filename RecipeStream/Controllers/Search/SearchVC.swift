@@ -29,12 +29,17 @@ class SearchVC: UIViewController {
         bindViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchFavoriteIDs()
+    }
+    
     // MARK: - Setup
     private func setupUI() {
         // Automatically hide the keyboard when the user scrolls (a professional UX touch)
         resultsCollectionView.keyboardDismissMode = .onDrag
         
-        //        searchBar.backgroundImage = UIImage()
+//        searchBar.backgroundImage = UIImage()
     }
     
     // MARK: - Rx Bindings

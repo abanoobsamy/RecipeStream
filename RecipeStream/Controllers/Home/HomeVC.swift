@@ -40,6 +40,8 @@ class HomeVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        viewModel.fetchFavoriteIDs()
+        
         guard let greetingLbl = greetingsLbl else {
             print("❌Label Not Linked yet!")
             return
