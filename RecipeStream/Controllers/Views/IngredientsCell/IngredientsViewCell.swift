@@ -36,13 +36,24 @@ class IngredientsViewCell: UICollectionViewCell {
             btnCheckbox.tintColor = .colorRedGray
             
             attributeString.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: fullRange)
-            attributeString.addAttribute(.foregroundColor, value: UIColor.lightGray, range: fullRange)
+//            attributeString.addAttribute(.foregroundColor, value: UIColor.lightGray, range: fullRange)
+            
+            let customFont = UIFont.systemFont(ofSize: 16, weight: .regular)
+            attributeString.addAttributes([
+                .foregroundColor: UIColor.lightGray,
+                .font: customFont
+            ], range: fullRange)
             
         } else {
             btnCheckbox.setImage(UIImage(systemName: "checkmark.rectangle.portrait"), for: .normal)
             btnCheckbox.tintColor = .colorOrange
-            
-            attributeString.addAttribute(.foregroundColor, value: UIColor.black, range: fullRange)
+//            attributeString.addAttribute(.foregroundColor, value: UIColor.black, range: fullRange)
+
+            let customFont = UIFont.systemFont(ofSize: 16, weight: .medium)
+            attributeString.addAttributes([
+                .foregroundColor: UIColor.black,
+                .font: customFont
+            ], range: fullRange)
         }
         
         titleLbl.attributedText = attributeString
