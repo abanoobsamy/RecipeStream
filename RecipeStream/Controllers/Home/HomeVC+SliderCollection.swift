@@ -115,21 +115,20 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
             // يعني الإجمالي: textWidth + 60
             let totalWidth = textWidth + 64
             
-            // 4. الارتفاع خليه 40 أو 45 (على حسب ما تحب الكبسولة تخينة ولا رفيعة)
             return CGSize(width: totalWidth, height: 32)
         } else {
+            let isLandscape = self.view.bounds.width > self.view.bounds.height
+            let numberOfColumns: CGFloat = isLandscape ? 4 : 2
+            
+            // 2. حساب المسافات
             let padding: CGFloat = 8
             let spacingBetweenCells: CGFloat = 8
             
             // الحسبة: عرض الشاشة - (مسافة اليمين + مسافة الشمال + المسافة اللي في النص)
             let availableWidth = collectionView.frame.width - (padding * 2) - spacingBetweenCells
+            let cellWidth = isLandscape ? availableWidth / numberOfColumns : availableWidth / 2
             
-            // عرض الخلية الواحدة = المساحة المتبقية مقسومة على 2
-            let cellWidth = availableWidth / 2
-            
-            // الارتفاع: الصورة باين إنها أطول من العرض شوية، ممكن نضرب العرض في 1.3 أو نحط رقم ثابت يعجبك
-            let cellHeight = cellWidth * 1.2 // أو ممكن تكتب 240 مثلاً
-            
+            let cellHeight = isLandscape ? 240 : cellWidth * 1.2
             return CGSize(width: cellWidth, height: cellHeight)
         }
     }
