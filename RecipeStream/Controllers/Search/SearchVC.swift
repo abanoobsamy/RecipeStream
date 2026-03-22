@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Lottie
 
 class SearchVC: UIViewController {
     
@@ -16,6 +17,7 @@ class SearchVC: UIViewController {
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var resultsCollectionView: UICollectionView!
     @IBOutlet weak var resultsCountLbl: UILabel!
+    @IBOutlet weak var emptyStateView: LottieAnimationView!
     
     // MARK: - Properties
     let viewModel = SearchViewModel()
@@ -24,6 +26,9 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.bringSubviewToFront(emptyStateView)
+        
+        setupLottieConfiguration()
         setupCollectionViews()
         setupUI()
         bindViewModel()
@@ -32,6 +37,13 @@ class SearchVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.fetchFavoriteIDs()
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // Stop animation completely when leaving the screen to save resources
+        emptyStateView.stop()
     }
     
     // MARK: - Setup
@@ -123,7 +135,7 @@ class SearchVC: UIViewController {
         viewModel.isLoading
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] isLoading in
-//                 self?.showPuddingLoader(show: isLoading)
+                 self?.showPuddingLoader(show: isLoading)
             })
             .disposed(by: disposeBag)
         
@@ -133,6 +145,28 @@ class SearchVC: UIViewController {
                 self?.navigateToMealDetails(recipe: recipe)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.searchResults
+                .observe(on: MainScheduler.instance)
+                .subscribe(onNext: { [weak self] _ in
+                    self?.updateEmptyState()
+                })
+                .disposed(by: disposeBag)
+    }
+    
+    private func updateEmptyState() {
+        let isNowEmpty = viewModel.searchResults.value.isEmpty
+        
+        UIView.animate(withDuration: 0.3) {
+            self.emptyStateView.alpha = isNowEmpty ? 1.0 : 0.0
+            self.resultsCollectionView.alpha = isNowEmpty ? 0.0 : 1.0
+        } completion: { _ in
+            if isNowEmpty {
+                self.emptyStateView.play()
+            } else {
+                self.emptyStateView.pause()
+            }
+        }
     }
     
     func navigateToMealDetails(recipe: Recipe) {
@@ -144,5 +178,20 @@ class SearchVC: UIViewController {
         
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func setupLottieConfiguration() {
+        let animation = LottieAnimation.named("girl_withbox")
+//        let animation = LottieAnimation.named("yellowbox_opened")
+
+        emptyStateView.animation = animation
+        emptyStateView.contentMode = .scaleAspectFit
+        emptyStateView.loopMode = .loop
+        emptyStateView.animationSpeed = 0.8
+        emptyStateView.backgroundBehavior = .pauseAndRestore
+        
+        emptyStateView.alpha = 0
+        
+        print("Lottie Debug: Animation loaded? \(animation != nil)")
     }
 }

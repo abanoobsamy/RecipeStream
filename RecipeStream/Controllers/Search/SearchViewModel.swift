@@ -31,6 +31,12 @@ class SearchViewModel {
     let isLoading = BehaviorRelay<Bool>(value: false)
     let errorMessage = PublishRelay<String>()
     
+    var isEmpty: RxSwift.Observable<Bool> {
+        return searchResults.asObservable()
+            .map { $0.isEmpty }
+            .distinctUntilChanged()
+    }
+    
     private let disposeBag = DisposeBag()
     
     init() {

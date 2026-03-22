@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchVC" customModule="RecipeStream" customModuleProvider="target">
             <connections>
                 <outlet property="categoryCollectionView" destination="LmX-3N-UnJ" id="afJ-cq-hzC"/>
+                <outlet property="emptyStateView" destination="RgG-1a-96E" id="qxc-TI-d7A"/>
                 <outlet property="resultsCollectionView" destination="tir-ch-021" id="bDE-i0-lK8"/>
                 <outlet property="resultsCountLbl" destination="6XT-rz-AEj" id="3ug-fl-Z3r"/>
                 <outlet property="searchBar" destination="se5-Ao-hyQ" id="C3J-KM-QC4"/>
@@ -56,6 +57,14 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RgG-1a-96E" customClass="LottieAnimationView" customModule="Lottie">
+                    <rect key="frame" x="68.666666666666686" y="354" width="256" height="256"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="256" id="GIz-qp-xga"/>
+                        <constraint firstAttribute="height" constant="256" id="jDz-Rf-6mg"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" name="ColorDarkGray"/>
@@ -72,7 +81,9 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="tir-ch-021" secondAttribute="trailing" constant="20" id="ZQV-FW-ArO"/>
                 <constraint firstItem="LmX-3N-UnJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="nxV-P1-3lF"/>
                 <constraint firstItem="se5-Ao-hyQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="56" id="sWT-vZ-DD2"/>
+                <constraint firstItem="RgG-1a-96E" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" constant="56" id="uop-d1-41Z"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="LmX-3N-UnJ" secondAttribute="trailing" constant="20" id="zPw-w1-guE"/>
+                <constraint firstItem="RgG-1a-96E" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="zlb-Go-GUo"/>
             </constraints>
             <point key="canvasLocation" x="-36" y="98"/>
         </view>

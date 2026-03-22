@@ -28,6 +28,7 @@ class MealDetailsVC: UIViewController {
     @IBOutlet weak var heightInsturctionLayout: NSLayoutConstraint!
     @IBOutlet weak var containerStack: UIStackView!
     @IBOutlet weak var containerContentView: UIView!
+    @IBOutlet weak var btnImageClick: UIButton!
     
     let viewModel: DetailsViewModel
     let disposeBag = DisposeBag()
@@ -191,6 +192,24 @@ class MealDetailsVC: UIViewController {
                 self?.favoriteButton.tintColor = color
             })
             .disposed(by: disposeBag)
+        
+        shareButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.shareMealTapped()
+            })
+            .disposed(by: disposeBag)
+        
+        favoriteButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.favoriteTapped()
+            })
+            .disposed(by: disposeBag)
+        
+        btnImageClick.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.navigateToPhoto()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func loadImage(imageUrl: URL) {
@@ -211,33 +230,39 @@ class MealDetailsVC: UIViewController {
         shareButton.layer.cornerRadius = 17.5 // if size is 35x35
         shareButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
         shareButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        shareButton.addTarget(self, action: #selector(shareTapped), for: .touchUpInside)
         
-        let imageName = isFavorite ? "heart.fill" : "heart"
+//        let imageName = isFavorite ? "heart.fill" : "heart"  // not needed rx handled this
         
-        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
+//        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
         favoriteButton.tintColor = .black
         favoriteButton.backgroundColor = UIColor.systemGray6
         favoriteButton.layer.cornerRadius = 17.5 // if size is 35x35
         favoriteButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
         favoriteButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        favoriteButton.addTarget(self, action: #selector(favoriteTapped), for: .touchUpInside)
         
         let shareBarButtonItem = UIBarButtonItem(customView: shareButton)
         let favoriteBarButtonItem = UIBarButtonItem(customView: favoriteButton)
-        
         navigationItem.rightBarButtonItems = [shareBarButtonItem, favoriteBarButtonItem]
     }
     
-    @objc private func shareTapped() {
-        print("Share tapped")
+    private func shareMealTapped() {
+        let text = "Check out this delicious recipe: \(titleLbl.text ?? "")"
+        let activityVC = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        present(activityVC, animated: true)
     }
     
-    @objc private func favoriteTapped() {
-        print("Favorite tapped")
+    private func favoriteTapped() {
         let generator = UISelectionFeedbackGenerator()
         generator.selectionChanged()
         
         viewModel.favoriteButtonTapped()
+    }
+    
+    private func navigateToPhoto() {
+        print("navigateToPhoto")
+        guard let url = viewModel.imageUrl.value else { return }
+        let vc = ShowImageVC()
+        vc.passedImage = url
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

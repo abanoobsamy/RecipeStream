@@ -246,7 +246,9 @@ class HomeVC: UIViewController {
     }
     
     @IBAction func btnSeeAll(_ sender: Any) {
-        print("See All Tapped")
+        let vc = SeeAllVC()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

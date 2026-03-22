@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MealDetailsVC" customModule="RecipeStream" customModuleProvider="target">
             <connections>
+                <outlet property="btnImageClick" destination="ffN-rv-wVg" id="lZq-yq-Yg3"/>
                 <outlet property="containerContentView" destination="imK-zU-nPd" id="Duu-Zu-lfB"/>
                 <outlet property="containerStack" destination="RZA-N7-rde" id="Sol-LY-S2W"/>
                 <outlet property="descLbl" destination="CoW-OK-hTO" id="eeZ-17-fU5"/>
@@ -37,7 +38,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wDZ-JG-qu4">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="922.66666666666663"/>
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="928"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vO5-mm-nb3">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="350"/>
@@ -56,7 +57,7 @@
                                     <buttonConfiguration key="configuration" style="plain"/>
                                 </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="imK-zU-nPd">
-                                    <rect key="frame" x="0.0" y="299.99999999999994" width="393" height="622.66666666666652"/>
+                                    <rect key="frame" x="0.0" y="300" width="393" height="628"/>
                                     <subviews>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="San-kE-gsG">
                                             <rect key="frame" x="20" y="32" width="353" height="32"/>
@@ -79,17 +80,11 @@ Tomato Sauce</string>
                                             <color key="textColor" name="ColorBGDark"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By Chef Julianne Smith" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CoW-OK-hTO">
-                                            <rect key="frame" x="20" y="142.33333333333331" width="353" height="17"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" name="ColorGrayBlue"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="RZA-N7-rde">
-                                            <rect key="frame" x="20" y="183.33333333333331" width="353" height="100"/>
+                                            <rect key="frame" x="20" y="188.66666666666669" width="353" height="100"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="PSB-1t-Fqq">
-                                                    <rect key="frame" x="8" y="16.333333333333371" width="101" height="67.333333333333329"/>
+                                                    <rect key="frame" x="8" y="16.333333333333314" width="101" height="67.333333333333329"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="hkz-0U-3ea">
                                                             <rect key="frame" x="0.0" y="0.66666666666666607" width="101" height="18.666666666666671"/>
@@ -99,13 +94,13 @@ Tomato Sauce</string>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkX-nQ-D0t">
-                                                            <rect key="frame" x="0.0" y="27.99999999999994" width="101" height="14.333333333333332"/>
+                                                            <rect key="frame" x="0.0" y="27.999999999999996" width="101" height="14.333333333333332"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" name="ColorGrayBlue"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="45 min" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MVh-sH-vFH">
-                                                            <rect key="frame" x="0.0" y="50.333333333333314" width="101" height="17"/>
+                                                            <rect key="frame" x="0.0" y="50.333333333333371" width="101" height="17"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -113,14 +108,14 @@ Tomato Sauce</string>
                                                     </subviews>
                                                 </stackView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ck0-7g-0Oy">
-                                                    <rect key="frame" x="117" y="25" width="1" height="50"/>
+                                                    <rect key="frame" x="117" y="24.999999999999943" width="1" height="50"/>
                                                     <color key="backgroundColor" name="ColorWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="1" id="fru-xn-wpe"/>
                                                     </constraints>
                                                 </view>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6eh-Pi-YOb">
-                                                    <rect key="frame" x="126" y="16.333333333333371" width="101" height="67.333333333333329"/>
+                                                    <rect key="frame" x="126" y="16.333333333333314" width="101" height="67.333333333333329"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flame" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="6iB-jU-p67">
                                                             <rect key="frame" x="0.0" y="-0.33333333333333215" width="101" height="19.666666666666664"/>
@@ -130,13 +125,13 @@ Tomato Sauce</string>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calories" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tom-ID-Yta">
-                                                            <rect key="frame" x="0.0" y="27.99999999999994" width="101" height="14.333333333333332"/>
+                                                            <rect key="frame" x="0.0" y="27.999999999999996" width="101" height="14.333333333333332"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" name="ColorGrayBlue"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="320 Kcal" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QDy-1Z-CgS">
-                                                            <rect key="frame" x="0.0" y="50.333333333333314" width="101" height="17"/>
+                                                            <rect key="frame" x="0.0" y="50.333333333333371" width="101" height="17"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                             <color key="textColor" name="ColorBGDark"/>
                                                             <nil key="highlightedColor"/>
@@ -144,14 +139,14 @@ Tomato Sauce</string>
                                                     </subviews>
                                                 </stackView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yKQ-2b-Up3">
-                                                    <rect key="frame" x="235" y="25" width="1" height="50"/>
+                                                    <rect key="frame" x="235" y="24.999999999999943" width="1" height="50"/>
                                                     <color key="backgroundColor" name="ColorWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="1" id="Ftm-Jb-kEt"/>
                                                     </constraints>
                                                 </view>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="kc3-jd-TtC">
-                                                    <rect key="frame" x="244" y="16.333333333333371" width="101" height="67.333333333333329"/>
+                                                    <rect key="frame" x="244" y="16.333333333333314" width="101" height="67.333333333333329"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chart.bar.xaxis.ascending" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="2Se-p8-mzo">
                                                             <rect key="frame" x="0.0" y="1.6666666666666643" width="101" height="17.000000000000004"/>
@@ -161,13 +156,13 @@ Tomato Sauce</string>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Level" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pa5-NF-vf2">
-                                                            <rect key="frame" x="0.0" y="27.99999999999994" width="101" height="14.333333333333332"/>
+                                                            <rect key="frame" x="0.0" y="27.999999999999996" width="101" height="14.333333333333332"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" name="ColorGrayBlue"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Normal" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yfg-W9-zPc">
-                                                            <rect key="frame" x="0.0" y="50.333333333333314" width="101" height="17"/>
+                                                            <rect key="frame" x="0.0" y="50.333333333333371" width="101" height="17"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -185,19 +180,19 @@ Tomato Sauce</string>
                                             <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="8"/>
                                         </stackView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Ingredients" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chx-WN-rW0">
-                                            <rect key="frame" x="20" y="315.33333333333337" width="267.66666666666669" height="21.666666666666686"/>
+                                            <rect key="frame" x="20" y="320.66666666666663" width="267.66666666666669" height="21.666666666666686"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 Servings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hI6-L4-U5M">
-                                            <rect key="frame" x="295.66666666666669" y="316.66666666666663" width="77.333333333333314" height="19.333333333333314"/>
+                                            <rect key="frame" x="295.66666666666669" y="322" width="77.333333333333314" height="19.333333333333314"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" name="ColorOrange"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="TEf-hw-Sv8">
-                                            <rect key="frame" x="20" y="345" width="353" height="96"/>
+                                            <rect key="frame" x="20" y="350.33333333333337" width="353" height="96"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="96" id="WEU-Wz-ltN"/>
@@ -210,13 +205,13 @@ Tomato Sauce</string>
                                             </collectionViewFlowLayout>
                                         </collectionView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instructions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rfw-KU-8O4">
-                                            <rect key="frame" x="20" y="465" width="353" height="21.666666666666686"/>
+                                            <rect key="frame" x="20" y="470.33333333333337" width="353" height="21.666666666666686"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="PPF-4O-lc9">
-                                            <rect key="frame" x="20" y="494.66666666666663" width="353" height="96"/>
+                                            <rect key="frame" x="20" y="500" width="353" height="96"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="96" id="y4g-ZT-4zc"/>
@@ -228,6 +223,12 @@ Tomato Sauce</string>
                                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             </collectionViewFlowLayout>
                                         </collectionView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By Chef Julianne Smith" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CoW-OK-hTO">
+                                            <rect key="frame" x="20" y="147.66666666666669" width="353" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" name="ColorGrayBlue"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" name="ColorWhite"/>
                                     <constraints>
@@ -238,7 +239,6 @@ Tomato Sauce</string>
                                         <constraint firstItem="PPF-4O-lc9" firstAttribute="leading" secondItem="imK-zU-nPd" secondAttribute="leading" constant="20" id="GnF-93-B54"/>
                                         <constraint firstItem="RZA-N7-rde" firstAttribute="leading" secondItem="imK-zU-nPd" secondAttribute="leading" constant="20" id="GrF-Lo-4Tf"/>
                                         <constraint firstItem="chx-WN-rW0" firstAttribute="leading" secondItem="imK-zU-nPd" secondAttribute="leading" constant="20" id="JRF-p3-MZq"/>
-                                        <constraint firstItem="RZA-N7-rde" firstAttribute="top" secondItem="WM1-YR-1oT" secondAttribute="bottom" constant="39.666666666666686" id="KO1-DL-cae"/>
                                         <constraint firstItem="chx-WN-rW0" firstAttribute="top" secondItem="RZA-N7-rde" secondAttribute="bottom" constant="32" id="L4f-B9-4oG"/>
                                         <constraint firstItem="San-kE-gsG" firstAttribute="leading" secondItem="imK-zU-nPd" secondAttribute="leading" constant="20" id="OOh-Yf-oQ5"/>
                                         <constraint firstAttribute="trailing" secondItem="RZA-N7-rde" secondAttribute="trailing" constant="20" id="PZU-1M-haq"/>
@@ -248,6 +248,7 @@ Tomato Sauce</string>
                                         <constraint firstItem="WM1-YR-1oT" firstAttribute="leading" secondItem="CoW-OK-hTO" secondAttribute="leading" id="XzG-Cf-yOm"/>
                                         <constraint firstItem="TEf-hw-Sv8" firstAttribute="top" secondItem="chx-WN-rW0" secondAttribute="bottom" constant="8" id="Yvm-JU-e2s"/>
                                         <constraint firstItem="TEf-hw-Sv8" firstAttribute="leading" secondItem="imK-zU-nPd" secondAttribute="leading" constant="20" id="ctb-po-5e9"/>
+                                        <constraint firstItem="CoW-OK-hTO" firstAttribute="top" secondItem="WM1-YR-1oT" secondAttribute="bottom" constant="4" id="ebB-3I-Kbm"/>
                                         <constraint firstAttribute="trailing" secondItem="hI6-L4-U5M" secondAttribute="trailing" constant="20" id="hea-2A-DjS"/>
                                         <constraint firstItem="PPF-4O-lc9" firstAttribute="top" secondItem="Rfw-KU-8O4" secondAttribute="bottom" constant="8" id="hit-f3-3Cv"/>
                                         <constraint firstItem="hI6-L4-U5M" firstAttribute="centerY" secondItem="chx-WN-rW0" secondAttribute="centerY" id="kbp-Nv-45k"/>
