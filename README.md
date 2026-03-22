@@ -41,12 +41,15 @@
 
 ---
 
+## 👨‍💻 Author
+**Abanoob Samy** - Mobile Developer  
+[GitHub](https://github.com/abanoobsamy) | [LinkedIn](https://www.linkedin.com/in/abanoob-samy/
+)
+
+---
+
 ## 🚀 How to Run
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/abanoob-900/RecipeStream.git](https://github.com/abanoob-900/RecipeStream.git)
+   git clone [https://github.com/abanoob-900/RecipeStream.git](https://github.com/abanoobsamy/RecipeStream.git)
 
-## 👨‍💻 Author
-**Abanoob Samy** - Mobile Developer  
-[GitHub](https://github.com/abanoob-900) | [LinkedIn](https://www.linkedin.com/in/abanoob-samy/
-)
