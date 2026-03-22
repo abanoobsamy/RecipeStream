@@ -18,7 +18,6 @@ class HomeVC: UIViewController {
     @IBOutlet weak var recommendedCollectionView: UICollectionView!
     @IBOutlet weak var imageIv: UIImageView!
     @IBOutlet weak var seeAllBtn: UIButton!
-    @IBOutlet weak var notificationIv: UIImageView!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var recommendedCVHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLbl: UILabel!
@@ -29,9 +28,7 @@ class HomeVC: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        notificationIv.makeCircularIcon(bgColor: .systemGray6)
-        
+                
         setupCollectionViews()
         setupViews()
         bindViewModel()
@@ -97,10 +94,6 @@ class HomeVC: UIViewController {
         let user = SessionManager.currentUser
         titleLbl.text = user?.name ?? "No User Name"
         loadCircularProfileImage()
-        
-        notificationIv.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(notificationTapped(_:)))
-        notificationIv.addGestureRecognizer(tap)
     }
     
     private func loadCircularProfileImage() {
@@ -250,10 +243,6 @@ class HomeVC: UIViewController {
         
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    @objc func notificationTapped(_ sender: UITapGestureRecognizer) {
-        print("Notification Tapped")
     }
     
     @IBAction func btnSeeAll(_ sender: Any) {
