@@ -5,10 +5,15 @@
 
 ## 📸 Screenshots
 <p align="center">
+  <img src="Screenshots/loading.png" width="200" />
   <img src="Screenshots/home.png" width="200" />
+  <img src="Screenshots/seeall.png" width="200" />
   <img src="Screenshots/search.png" width="200" />
+  <img src="Screenshots/emptysearch.png" width="200" />
   <img src="Screenshots/details.png" width="200" />
-  <img src="Screenshots/favorites.png" width="200" />
+  <img src="Screenshots/favorite.png" width="200" />
+  <img src="Screenshots/delete-favorite.png" width="200" />
+  <img src="Screenshots/empty-favorite.png" width="200" />
 </p>
 
 ---
