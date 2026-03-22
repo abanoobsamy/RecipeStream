@@ -11,6 +11,7 @@
   <img src="Screenshots/search.png" width="200" />
   <img src="Screenshots/emptysearch.png" width="200" />
   <img src="Screenshots/details.png" width="200" />
+  <img src="Screenshots/details2.png" width="200" />
   <img src="Screenshots/favorite.png" width="200" />
   <img src="Screenshots/delete-favorite.png" width="200" />
   <img src="Screenshots/empty-favorite.png" width="200" />
