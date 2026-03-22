@@ -46,3 +46,7 @@
    ```bash
    git clone [https://github.com/abanoob-900/RecipeStream.git](https://github.com/abanoob-900/RecipeStream.git)
 
+## 👨‍💻 Author
+**Abanoob Samy** - Mobile Developer  
+[GitHub](https://github.com/abanoob-900) | [LinkedIn](https://www.linkedin.com/in/abanoob-samy/
+)
