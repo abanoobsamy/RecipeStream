@@ -5,6 +5,7 @@
 
 ## 📸 Screenshots
 <p align="center">
+  <img src="Screenshots/parent.png" width="800" height="800" />
   <img src="Screenshots/loading.png" width="200" />
   <img src="Screenshots/home.png" width="200" />
   <img src="Screenshots/seeall.png" width="200" />
